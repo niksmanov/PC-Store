@@ -1,8 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@using System.Globalization;
 
-@{string username = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(User.Identity.GetUserName().Split('@')[0]);
-}
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -11,7 +8,7 @@
         
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink("Hello, " + username, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            @Html.ActionLink("Hello, " + User.Identity.GetUserName().Split('@')[0], "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>

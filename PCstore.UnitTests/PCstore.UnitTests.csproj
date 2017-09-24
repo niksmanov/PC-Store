@@ -92,9 +92,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PCstore\PCstore.csproj">
+    <ProjectReference Include="..\PCstore.Web\PCstore.Web.csproj">
       <Project>{9D725EAE-6F59-4865-AC35-4D3116BADD2F}</Project>
-      <Name>PCstore</Name>
+      <Name>PCstore.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

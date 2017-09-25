@@ -5,45 +5,45 @@ using PCstore.Controllers;
 namespace PCstore.UnitTests.Controllers
 {
     [TestClass]
-    public class HomeControllerTest
+    public class StoreControllerTest
     {
         [TestMethod]
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            StoreController controller = new StoreController();
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.AreEqual("PC store - Home", result.ViewBag.Title);
         }
 
         [TestMethod]
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            StoreController controller = new StoreController();
 
             // Act
             ViewResult result = controller.About() as ViewResult;
 
             // Assert
-            Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            Assert.AreEqual("About", result.ViewBag.Title);
         }
 
         [TestMethod]
         public void Contact()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            StoreController controller = new StoreController();
 
             // Act
             ViewResult result = controller.Contact() as ViewResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.AreEqual("Contact", result.ViewBag.Title);
         }
     }
 }

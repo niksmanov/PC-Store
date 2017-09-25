@@ -2,23 +2,25 @@
 
 namespace PCstore.Controllers
 {
-    public class HomeController : Controller
+    public class StoreController : Controller
     {
         public ActionResult Index()
         {
+            ViewBag.Title = "PC store - Home";
+
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Title = "About";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Title = "Contact";
 
             return View();
         }

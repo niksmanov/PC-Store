@@ -186,7 +186,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\DeviceController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -255,9 +256,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Store\About.cshtml" />
+    <Content Include="Views\Store\Contact.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -278,6 +279,9 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Device\Laptops.cshtml" />
+    <Content Include="Views\Device\Computers.cshtml" />
+    <Content Include="Views\Device\Displays.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -291,6 +295,10 @@
     <ProjectReference Include="..\PCstore.Data\PCstore.Data.csproj">
       <Project>{1c8904ff-02e1-4e37-92dd-0f828bdc561d}</Project>
       <Name>PCstore.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PCstore.Services\PCstore.Services.csproj">
+      <Project>{45e44210-b537-41c6-9d22-6a26f8db976b}</Project>
+      <Name>PCstore.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 
-namespace PCstore.Models
+namespace PCstore.Web.Models
 {
     public class IndexViewModel
     {

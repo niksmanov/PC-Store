@@ -5,9 +5,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using PCstore.Models;
+using PCstore.Web.Models;
 
-namespace PCstore.Controllers
+namespace PCstore.Web.Controllers
 {
     [Authorize]
     public class ManageController : Controller

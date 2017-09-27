@@ -40,12 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComputersService.cs" />
+    <Compile Include="Contracts\IService.cs" />
+    <Compile Include="DisplaysService.cs" />
+    <Compile Include="Contracts\IComputersService.cs" />
+    <Compile Include="Contracts\IDisplaysService.cs" />
+    <Compile Include="Contracts\ILaptopsService.cs" />
+    <Compile Include="LaptopsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\PCstore.Data.Model\PCstore.Data.Model.csproj">
+      <Project>{1F355C4D-1F90-494F-9DB2-3B901079028A}</Project>
+      <Name>PCstore.Data.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PCstore.Data\PCstore.Data.csproj">
       <Project>{1c8904ff-02e1-4e37-92dd-0f828bdc561d}</Project>
       <Name>PCstore.Data</Name>

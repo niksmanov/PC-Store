@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PCstore.Models
+namespace PCstore.Web.Models
 {
     public class ConfigureTwoFactorViewModel
     {

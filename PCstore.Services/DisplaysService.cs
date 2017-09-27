@@ -1,0 +1,31 @@
+﻿using PCstore.Services.Contracts;
+using PCstore.Data.Repositories;
+using PCstore.Data.Model;
+using PCstore.Data.SaveContext;
+using System.Linq;
+
+namespace PCstore.Services
+{
+    public class DisplaysService : IDisplaysService
+    {
+        private readonly IEfRepository<Display> displaysRepo;
+        private readonly ISaveContext context;
+
+        public DisplaysService(IEfRepository<Display> displaysRepo, ISaveContext context)
+        {
+            this.displaysRepo = displaysRepo;
+            this.context = context;
+        }
+
+        public IQueryable<Display> GetAll()
+        {
+            return this.displaysRepo.All;
+        }
+
+        public void Update(Display display)
+        {
+            this.displaysRepo.Update(display);
+            this.context.Commit();
+        }
+    }
+}

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PCstore.Models
+namespace PCstore.Web.Models
 {
     public class SetPasswordViewModel
     {

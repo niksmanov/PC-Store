@@ -3,7 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using PCstore.Data;
-using PCstore.Data.Models;
+using PCstore.Data.Model;
 using System;
 
 namespace PCstore
@@ -18,7 +18,7 @@ namespace PCstore
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<User>(context.Get<DbContext>()));
+            var manager = new ApplicationUserManager(new UserStore<User>(context.Get<MsSqlDbContext>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<User>(manager)
             {
@@ -30,10 +30,10 @@ namespace PCstore
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                //RequireNonLetterOrDigit = true,
-                //RequireDigit = true,
-                //RequireLowercase = true,
-                //RequireUppercase = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults

@@ -1,26 +1,26 @@
 ﻿using System.Web.Mvc;
 
-namespace PCstore.Controllers
+namespace PCstore.Web.Controllers
 {
     public class StoreController : Controller
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "PC store - Home";
+            ViewData["Title"] = "PC store - Home";
 
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Title = "About";
+            ViewData["Title"] = "About";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Title = "Contact";
+            ViewData["Title"] = "Contact";
 
             return View();
         }

@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PCstore.Data.Model.Abstracts;
+using PCstore.Data.Model.Contracts;
+using System.ComponentModel.DataAnnotations;
 
-namespace PCstore.Data.Models
+namespace PCstore.Data.Model
 {
-    public class Computer
+    public class Computer : DataModel, IDevice
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         [MinLength(10)]
         [MaxLength(30)]
@@ -40,7 +39,7 @@ namespace PCstore.Data.Models
 
         [Required]
         [MinLength(4)]
-        [MaxLength(20)]
+        [MaxLength(30)]
         public string OpticalDevice { get; set; }
 
         [Required]
@@ -53,17 +52,21 @@ namespace PCstore.Data.Models
         public decimal Price { get; set; }
 
         [Required]
-        [Range(1, 10)]
-        public long SellerPhone { get; set; }
+        [MinLength(8)]
+        [MaxLength(12)]
+        public string SellerPhone { get; set; }
 
         [Required]
         [MinLength(5)]
-        [MaxLength(20)]
+        [MaxLength(30)]
         public string SellerEmail { get; set; }
 
         [Required]
         [MinLength(1)]
         [MaxLength(500)]
         public string Description { get; set; }
+
+        [Required]
+        public virtual User Seller { get; set; }
     }
 }

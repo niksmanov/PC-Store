@@ -5,7 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using PCstore.Data;
-using PCstore.Data.Models;
+using PCstore.Data.Model;
 
 namespace PCstore
 {
@@ -15,7 +15,7 @@ namespace PCstore
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(DbContext.Create);
+            app.CreatePerOwinContext(MsSqlDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 

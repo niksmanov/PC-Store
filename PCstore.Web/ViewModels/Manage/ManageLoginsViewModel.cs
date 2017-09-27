@@ -2,7 +2,7 @@
 using Microsoft.Owin.Security;
 using System.Collections.Generic;
 
-namespace PCstore.Models
+namespace PCstore.Web.Models
 {
     public class ManageLoginsViewModel
     {

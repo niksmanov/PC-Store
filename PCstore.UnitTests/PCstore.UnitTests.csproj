@@ -92,6 +92,18 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PCstore.Data.Model\PCstore.Data.Model.csproj">
+      <Project>{1f355c4d-1f90-494f-9db2-3b901079028a}</Project>
+      <Name>PCstore.Data.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PCstore.Data\PCstore.Data.csproj">
+      <Project>{1c8904ff-02e1-4e37-92dd-0f828bdc561d}</Project>
+      <Name>PCstore.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PCstore.Services\PCstore.Services.csproj">
+      <Project>{45e44210-b537-41c6-9d22-6a26f8db976b}</Project>
+      <Name>PCstore.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PCstore.Web\PCstore.Web.csproj">
       <Project>{9D725EAE-6F59-4865-AC35-4D3116BADD2F}</Project>
       <Name>PCstore.Web</Name>

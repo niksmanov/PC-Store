@@ -32,12 +32,12 @@ namespace PCstore.Data.Migrations
                         Seller_Id = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.Seller_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.Seller_Id, cascadeDelete: true)
                 .Index(t => t.IsDeleted)
                 .Index(t => t.Seller_Id);
             
             CreateTable(
-                "dbo.AspNetUsers",
+                "dbo.Users",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
@@ -62,7 +62,7 @@ namespace PCstore.Data.Migrations
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
             
             CreateTable(
-                "dbo.AspNetUserClaims",
+                "dbo.UserClaims",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -71,11 +71,11 @@ namespace PCstore.Data.Migrations
                         ClaimValue = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.AspNetUserLogins",
+                "dbo.UserLogins",
                 c => new
                     {
                         LoginProvider = c.String(nullable: false, maxLength: 128),
@@ -83,19 +83,19 @@ namespace PCstore.Data.Migrations
                         UserId = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
             CreateTable(
-                "dbo.AspNetUserRoles",
+                "dbo.UserRoles",
                 c => new
                     {
                         UserId = c.String(nullable: false, maxLength: 128),
                         RoleId = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.Roles", t => t.RoleId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
             
@@ -119,7 +119,7 @@ namespace PCstore.Data.Migrations
                         Seller_Id = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.Seller_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.Seller_Id, cascadeDelete: true)
                 .Index(t => t.IsDeleted)
                 .Index(t => t.Seller_Id);
             
@@ -151,12 +151,12 @@ namespace PCstore.Data.Migrations
                         Seller_Id = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.Seller_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.Seller_Id, cascadeDelete: true)
                 .Index(t => t.IsDeleted)
                 .Index(t => t.Seller_Id);
             
             CreateTable(
-                "dbo.AspNetRoles",
+                "dbo.Roles",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
@@ -169,33 +169,33 @@ namespace PCstore.Data.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Laptops", "Seller_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Displays", "Seller_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Computers", "Seller_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropForeignKey("dbo.UserRoles", "RoleId", "dbo.Roles");
+            DropForeignKey("dbo.Laptops", "Seller_Id", "dbo.Users");
+            DropForeignKey("dbo.Displays", "Seller_Id", "dbo.Users");
+            DropForeignKey("dbo.Computers", "Seller_Id", "dbo.Users");
+            DropForeignKey("dbo.UserRoles", "UserId", "dbo.Users");
+            DropForeignKey("dbo.UserLogins", "UserId", "dbo.Users");
+            DropForeignKey("dbo.UserClaims", "UserId", "dbo.Users");
+            DropIndex("dbo.Roles", "RoleNameIndex");
             DropIndex("dbo.Laptops", new[] { "Seller_Id" });
             DropIndex("dbo.Laptops", new[] { "IsDeleted" });
             DropIndex("dbo.Displays", new[] { "Seller_Id" });
             DropIndex("dbo.Displays", new[] { "IsDeleted" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.AspNetUsers", new[] { "IsDeleted" });
+            DropIndex("dbo.UserRoles", new[] { "RoleId" });
+            DropIndex("dbo.UserRoles", new[] { "UserId" });
+            DropIndex("dbo.UserLogins", new[] { "UserId" });
+            DropIndex("dbo.UserClaims", new[] { "UserId" });
+            DropIndex("dbo.Users", "UserNameIndex");
+            DropIndex("dbo.Users", new[] { "IsDeleted" });
             DropIndex("dbo.Computers", new[] { "Seller_Id" });
             DropIndex("dbo.Computers", new[] { "IsDeleted" });
-            DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Roles");
             DropTable("dbo.Laptops");
             DropTable("dbo.Displays");
-            DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.AspNetUserLogins");
-            DropTable("dbo.AspNetUserClaims");
-            DropTable("dbo.AspNetUsers");
+            DropTable("dbo.UserRoles");
+            DropTable("dbo.UserLogins");
+            DropTable("dbo.UserClaims");
+            DropTable("dbo.Users");
             DropTable("dbo.Computers");
         }
     }

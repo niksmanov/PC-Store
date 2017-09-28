@@ -1,11 +1,10 @@
-﻿
-namespace PCstore.Data.SaveContext
+﻿namespace PCstore.Data.UnitOfWork
 {
-    public class SaveContext : ISaveContext
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly MsSqlDbContext context;
 
-        public SaveContext(MsSqlDbContext context)
+        public UnitOfWork(MsSqlDbContext context)
         {
             this.context = context;
         }

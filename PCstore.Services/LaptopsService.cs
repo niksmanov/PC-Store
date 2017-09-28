@@ -1,6 +1,6 @@
 ﻿using PCstore.Data.Model;
 using PCstore.Data.Repositories;
-using PCstore.Data.SaveContext;
+using PCstore.Data.UnitOfWork;
 using PCstore.Services.Contracts;
 using System.Linq;
 
@@ -9,9 +9,9 @@ namespace PCstore.Services
     public class LaptopsService : ILaptopsService
     {
         private readonly IEfRepository<Laptop> laptopsRepo;
-        private readonly ISaveContext context;
+        private readonly IUnitOfWork context;
 
-        public LaptopsService(IEfRepository<Laptop> laptopsRepo, ISaveContext context)
+        public LaptopsService(IEfRepository<Laptop> laptopsRepo, IUnitOfWork context)
         {
             this.laptopsRepo = laptopsRepo;
             this.context = context;

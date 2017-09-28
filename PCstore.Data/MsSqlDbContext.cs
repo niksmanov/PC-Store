@@ -3,6 +3,7 @@ using PCstore.Data.Model;
 using PCstore.Data.Model.Contracts;
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 
 namespace PCstore.Data
@@ -20,39 +21,39 @@ namespace PCstore.Data
         public IDbSet<Display> Displays { get; set; }
 
         public override int SaveChanges()
+        {            
+            try
+            {
+                this.ApplyAuditInfoRules();
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                // Retrieve the error messages as a list of strings.
+                var errorMessages = ex.EntityValidationErrors
+                        .SelectMany(x => x.ValidationErrors)
+                        .Select(x => x.ErrorMessage);
+
+                // Join the list to a single string.
+                var fullErrorMessage = string.Join(Environment.NewLine, errorMessages);
+
+                // Combine the original exception message with the new one.
+                var exceptionMessage =
+                    string.Concat($"{ex.Message} {Environment.NewLine}The validation errors are: {Environment.NewLine}{fullErrorMessage}");
+
+                throw new DbEntityValidationException(exceptionMessage);
+            }
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            this.ApplyAuditInfoRules();
-            return base.SaveChanges();
+            base.OnModelCreating(modelBuilder);
 
-            // FOR TESTING PURPOSES ONLY!!! \\
-            //try
-            //{
-            //    return base.SaveChanges();
-            //}
-            //catch (DbEntityValidationException ex)
-            //{
-            //    const string fileName = "EF_ERRORS.txt";
-            //    var writer = new StreamWriter(fileName);
-            //    string sourcePdfFilePath = $"{Directory.GetCurrentDirectory()}\\{fileName}";
-            //    string destPdfFilePath = $"../../../{fileName}";
-
-            //    // Retrieve the error messages as a list of strings.
-            //    var errorMessages = ex.EntityValidationErrors
-            //            .SelectMany(x => x.ValidationErrors)
-            //            .Select(x => x.ErrorMessage);
-
-            //    // Join the list to a single string.
-            //    var fullErrorMessage = string.Join(Environment.NewLine, errorMessages);
-
-            //    // Combine the original exception message with the new one.
-            //    var exceptionMessage =
-            //        string.Concat($"{ex.Message} {Environment.NewLine}The validation errors are: {Environment.NewLine}{fullErrorMessage}");
-
-            //    writer.Write(exceptionMessage);
-            //    writer.Close();
-            //    File.Move(sourcePdfFilePath, destPdfFilePath);
-            //    throw new DbEntityValidationException($"Check your errors on C:\\{fileName}");
-            //}
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles");
+            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");
         }
 
         private void ApplyAuditInfoRules()

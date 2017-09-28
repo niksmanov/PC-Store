@@ -15,7 +15,8 @@ namespace PCstore.Web.App_Start
     using System.Data.Entity;
     using Services.Contracts;
     using Data.Repositories;
-    using Data.SaveContext;
+    using Data.UnitOfWork;
+    using AutoMapper;
 
     public static class InjectionConfig
     {
@@ -83,7 +84,8 @@ namespace PCstore.Web.App_Start
 
             kernel.Bind(typeof(DbContext), typeof(MsSqlDbContext)).To<MsSqlDbContext>().InRequestScope();
             kernel.Bind(typeof(IEfRepository<>)).To(typeof(EfRepository<>));
-            kernel.Bind<ISaveContext>().To<SaveContext>();
+            kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
+            kernel.Bind<IMapper>().ToMethod(x => Mapper.Instance).InSingletonScope();
         }
     }
 }

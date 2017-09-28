@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace PCstore
+namespace PCstore.Web
 {
     public class BundleConfig
     {

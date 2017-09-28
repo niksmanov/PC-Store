@@ -1,11 +1,23 @@
-﻿@using PCstore.Web.ViewModels.Device
-@model DevicesViewModel
+﻿@model DeviceViewModel
 
 <h3 align="center">@ViewData["Title"]</h3>
 
-@foreach(var computer in Model.Computers)
+
+@foreach (var computer in Model.Computers)
 {
-    <p>@computer.CPU</p>
-    <p>@computer.GPU</p>
-    <p>@computer.HDD</p>
+    <data>@computer.CPU</data>
+    <data>@computer.CpuSpeed</data>
+    <data>@computer.RAM</data>
+    <data>@computer.RamType</data>
+    <data>@computer.HDD</data>
+    <data>@computer.GPU</data>
+    <data>@computer.GpuMemory</data>
+    <data>@computer.OpticalDevice</data>
+    <data>@computer.OperatingSystem</data>
+    <data>@computer.Price</data>
+    <data>@computer.SellerPhone</data>
+    <data>@computer.SellerEmail</data>
+    <data>@computer.Description</data>
+    <data>@computer.PostedOn</data>
+    <hr />
 }

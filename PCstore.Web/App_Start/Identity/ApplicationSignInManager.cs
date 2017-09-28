@@ -5,7 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using PCstore.Data.Model;
 
-namespace PCstore
+namespace PCstore.Web
 {
     // Configure the application sign-in manager which is used in this application.
     public class ApplicationSignInManager : SignInManager<User, string>

@@ -1,1 +1,26 @@
-﻿<h3 align="center">@ViewData["Title"]</h3>
+﻿@model DeviceViewModel
+
+<h3 align="center">@ViewData["Title"]</h3>
+
+
+@foreach (var laptop in Model.Laptops)
+{
+    <data>@laptop.DisplaySize</data>
+    <data>@laptop.DisplayResolution</data>
+    <data>@laptop.CPU</data>
+    <data>@laptop.CpuSpeed</data>
+    <data>@laptop.RAM</data>
+    <data>@laptop.RamType</data>
+    <data>@laptop.HDD</data>
+    <data>@laptop.GPU</data>
+    <data>@laptop.GpuMemory</data>
+    <data>@laptop.Battery</data>
+    <data>@laptop.OpticalDevice</data>
+    <data>@laptop.OperatingSystem</data>
+    <data>@laptop.Price</data>
+    <data>@laptop.SellerPhone</data>
+    <data>@laptop.SellerEmail</data>
+    <data>@laptop.Description</data>
+    <data>@laptop.PostedOn</data>
+    <hr />
+}

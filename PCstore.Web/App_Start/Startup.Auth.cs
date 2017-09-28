@@ -7,7 +7,7 @@ using Owin;
 using PCstore.Data;
 using PCstore.Data.Model;
 
-namespace PCstore
+namespace PCstore.Web
 {
     public partial class Startup
     {

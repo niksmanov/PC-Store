@@ -13,7 +13,7 @@ namespace PCstore.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201709271810187_Initial"; }
+            get { return "201709282034295_Initial"; }
         }
         
         string IMigrationMetadata.Source

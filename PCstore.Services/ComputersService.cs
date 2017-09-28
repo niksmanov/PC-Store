@@ -1,6 +1,6 @@
 ﻿using PCstore.Data.Model;
 using PCstore.Data.Repositories;
-using PCstore.Data.SaveContext;
+using PCstore.Data.UnitOfWork;
 using PCstore.Services.Contracts;
 using System.Linq;
 
@@ -9,9 +9,9 @@ namespace PCstore.Services
     public class ComputersService : IComputersService
     {
         private readonly IEfRepository<Computer> computersRepo;
-        private readonly ISaveContext context;
+        private readonly IUnitOfWork context;
 
-        public ComputersService(IEfRepository<Computer> computersRepo, ISaveContext context)
+        public ComputersService(IEfRepository<Computer> computersRepo, IUnitOfWork context)
         {
             this.computersRepo = computersRepo;
             this.context = context;

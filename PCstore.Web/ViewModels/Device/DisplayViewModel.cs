@@ -1,49 +1,39 @@
-﻿using PCstore.Data.Model.Abstracts;
-using PCstore.Data.Model.Contracts;
+﻿using PCstore.Data.Model;
+using PCstore.Web.Infrastructure;
+using System;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 
-namespace PCstore.Data.Model
+namespace PCstore.Web.ViewModels.Device
 {
-    public class Display : DataModel, IDevice
+    public class DisplayViewModel : IMapFrom<Display>, IHaveCustomMappings
     {
         [Required]
-        [Range(0d, 19d)]
         public double Size { get; set; }
-
         [Required]
-        [MinLength(7)] //800x600
-        [MaxLength(9)] //1920x1024        
         public string Resolution { get; set; }
-        
         [Required]
-        [MinLength(1)]
-        [MaxLength(5)]
         public string Type { get; set; }
-
         [Required]
-        [Range(256000d, 17000000d)]
         public double Colors { get; set; }
-
         [Required]
-        [Range(1, 10000)]
         public decimal Price { get; set; }
-
         [Required]
-        [MinLength(8)]
-        [MaxLength(12)]
         public string SellerPhone { get; set; }
-
         [Required]
-        [MinLength(5)]
-        [MaxLength(30)]
         public string SellerEmail { get; set; }
-
         [Required]
-        [MinLength(1)]
-        [MaxLength(500)]
         public string Description { get; set; }
-
         [Required]
         public virtual User Seller { get; set; }
+        [Required]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime PostedOn { get; set; }
+
+        public void CreateMappings(IMapperConfigurationExpression configuration)
+        {
+            configuration.CreateMap<Display, DisplayViewModel>()
+             .ForMember(x => x.PostedOn, cfg => cfg.MapFrom(y => y.CreatedOn));
+        }
     }
 }

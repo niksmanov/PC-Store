@@ -1,8 +1,9 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(PCstore.Startup))]
-namespace PCstore
+[assembly: OwinStartup(typeof(PCstore.Web.Startup))]
+
+namespace PCstore.Web
 {
     public partial class Startup
     {

@@ -1,1 +1,18 @@
-﻿<h3 align="center">@ViewData["Title"]</h3>
+﻿@model DeviceViewModel
+
+<h3 align="center">@ViewData["Title"]</h3>
+
+
+@foreach (var display in Model.Displays)
+{
+    <data>@display.Size</data>
+    <data>@display.Resolution</data>
+    <data>@display.Type</data>
+    <data>@display.Colors</data>
+    <data>@display.Price</data>
+    <data>@display.SellerPhone</data>
+    <data>@display.SellerEmail</data>
+    <data>@display.Description</data>
+    <data>@display.PostedOn</data>
+    <hr />
+}

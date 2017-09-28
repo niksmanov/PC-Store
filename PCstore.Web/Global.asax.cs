@@ -1,6 +1,8 @@
 ﻿using PCstore.Data;
 using PCstore.Data.Migrations;
+using PCstore.Web.App_Start;
 using System.Data.Entity;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -19,7 +21,8 @@ namespace PCstore.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-
+            var mapper = new AutoMapperConfig();
+            mapper.Execute(Assembly.GetExecutingAssembly());
         }
     }
 }

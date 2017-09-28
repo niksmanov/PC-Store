@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace PCstore
+namespace PCstore.Web
 {
     public class FilterConfig
     {

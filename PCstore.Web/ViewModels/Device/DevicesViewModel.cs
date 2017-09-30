@@ -2,7 +2,7 @@
 
 namespace PCstore.Web.ViewModels.Device
 {
-    public class DeviceViewModel
+    public class DevicesViewModel
     {
         public ICollection<ComputerViewModel> Computers { get; set; }
         public ICollection<LaptopViewModel> Laptops { get; set; }

@@ -4,7 +4,7 @@
     {
         decimal Price { get; set; }
         string SellerPhone { get; set; }
-        string SellerEmail { get; set; }
+        User Seller { get; set; }
         string Description { get; set; }
     }
 }

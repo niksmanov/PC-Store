@@ -27,5 +27,15 @@ namespace PCstore.Services
             this.computersRepo.Update(computer);
             this.context.Commit();
         }
+
+        public void Add(Computer computer)
+        {
+            this.computersRepo.Add(computer);
+        }
+
+        public void Delete(Computer computer)
+        {
+            this.computersRepo.Delete(computer);
+        }      
     }
 }

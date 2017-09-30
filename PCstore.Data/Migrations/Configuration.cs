@@ -26,7 +26,6 @@ namespace PCstore.Data.Migrations
             base.Seed(context);
         }
 
-
         private void SeedUsers(MsSqlDbContext context)
         {
             if (!context.Roles.Any())
@@ -57,7 +56,7 @@ namespace PCstore.Data.Migrations
         {
             if (!context.Computers.Any())
             {
-                for (int i = 1; i < 10; i++)
+                for (int i = 2; i < 10; i++)
                 {
                     var computer = new Computer()
                     {
@@ -67,12 +66,11 @@ namespace PCstore.Data.Migrations
                         RamType = $"DDR{i}",
                         HDD = i * 100,
                         GPU = $"Nvidia GeForce {i}{i}00",
-                        GpuMemory = double.Parse($"{i / 2}.{i}"),
+                        GpuMemory = int.Parse($"{i / 2}"),
                         OpticalDevice = $"LG DVD-RW class {i}",
                         OperatingSystem = $"Windows {i}",
                         Price = decimal.Parse($"{i}{i}0"),
                         SellerPhone = $"088{i}9{i}6{i}4{i}",
-                        SellerEmail = $"testUser{i}@gmail.com",
                         Description = "Good computer for this price!",
                         Seller = context.Users.First(x => x.Email == AdministratorUserName),
                         CreatedOn = DateTime.Now
@@ -83,7 +81,7 @@ namespace PCstore.Data.Migrations
 
             if (!context.Laptops.Any())
             {
-                for (int i = 1; i < 10; i++)
+                for (int i = 2; i < 10; i++)
                 {
                     var laptop = new Laptop()
                     {
@@ -95,13 +93,12 @@ namespace PCstore.Data.Migrations
                         RamType = $"DDR{i}",
                         HDD = i * 100,
                         GPU = $"Nvidia GeForce {i}{i}00",
-                        GpuMemory = double.Parse($"{i / 2}.{i}"),
-                        Battery = i % 2 == 0,
+                        GpuMemory = int.Parse($"{i / 2}"),
+                        Battery = "Li-Pol",
                         OpticalDevice = $"Samsung DVD-RW class {i}",
                         OperatingSystem = $"Windows {i}",
                         Price = decimal.Parse($"{i}{i}0"),
                         SellerPhone = $"087{i}5{i}2{i}9{i}",
-                        SellerEmail = $"testUser1{i}@gmail.com",
                         Description = "Good laptop for this price!",
                         Seller = context.Users.First(x => x.Email == AdministratorUserName),
                         CreatedOn = DateTime.Now
@@ -112,7 +109,7 @@ namespace PCstore.Data.Migrations
 
             if (!context.Displays.Any())
             {
-                for (int i = 1; i < 10; i++)
+                for (int i = 2; i < 10; i++)
                 {
                     var display = new Display()
                     {
@@ -122,7 +119,6 @@ namespace PCstore.Data.Migrations
                         Colors = double.Parse($"{i}{i}{i}0000"),
                         Price = decimal.Parse($"{i}{i}0"),
                         SellerPhone = $"089{i}2{i}6{i}4{i}",
-                        SellerEmail = $"testUser2{i}@gmail.com",
                         Description = "Good display for this price!",
                         Seller = context.Users.First(x => x.Email == AdministratorUserName),
                         CreatedOn = DateTime.Now

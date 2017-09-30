@@ -7,7 +7,7 @@ namespace PCstore.Data.Model
     public class Display : DataModel, IDevice
     {
         [Required]
-        [Range(0d, 19d)]
+        [Range(1d, 19d)]
         public double Size { get; set; }
 
         [Required]
@@ -32,11 +32,6 @@ namespace PCstore.Data.Model
         [MinLength(8)]
         [MaxLength(12)]
         public string SellerPhone { get; set; }
-
-        [Required]
-        [MinLength(5)]
-        [MaxLength(30)]
-        public string SellerEmail { get; set; }
 
         [Required]
         [MinLength(1)]

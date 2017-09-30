@@ -10,3 +10,5 @@
 
 
 :blue_book: [**Project description**](./docs/Project-description.md)
+
+:rocket: [**Website of the application**](http://pcstore-001-site1.itempurl.com/)

@@ -7,7 +7,7 @@ namespace PCstore.Data.Model
     public class Laptop : DataModel, IDevice
     {
         [Required]
-        [Range(0d, 19d)]
+        [Range(1d, 19d)]
         public double DisplaySize { get; set; }
 
         [Required]
@@ -21,20 +21,20 @@ namespace PCstore.Data.Model
         public string CPU { get; set; }
 
         [Required]
-        [Range(0d, 5d)]
+        [Range(1d, 5d)]
         public double CpuSpeed { get; set; }
 
         [Required]
-        [Range(0, 64)]
+        [Range(1, 64)]
         public int RAM { get; set; }
 
         [Required]
-        [MinLength(0)]
+        [MinLength(1)]
         [MaxLength(10)]
         public string RamType { get; set; }
 
         [Required]
-        [Range(0, 2000)]
+        [Range(1, 2000)]
         public int HDD { get; set; }
 
         [Required]
@@ -43,11 +43,13 @@ namespace PCstore.Data.Model
         public string GPU { get; set; }
 
         [Required]
-        [Range(0d, 5d)]
-        public double GpuMemory { get; set; }
+        [Range(1, 8)]
+        public int GpuMemory { get; set; }
 
         [Required]
-        public bool Battery { get; set; }
+        [MinLength(1)]
+        [MaxLength(30)]
+        public string Battery { get; set; }
 
         [Required]
         [MinLength(4)]
@@ -67,11 +69,6 @@ namespace PCstore.Data.Model
         [MinLength(8)]
         [MaxLength(12)]
         public string SellerPhone { get; set; }
-
-        [Required]
-        [MinLength(5)]
-        [MaxLength(30)]
-        public string SellerEmail { get; set; }
 
         [Required]
         [MinLength(1)]

@@ -27,5 +27,15 @@ namespace PCstore.Services
             this.laptopsRepo.Update(laptop);
             this.context.Commit();
         }
+
+        public void Add(Laptop laptop)
+        {
+            this.laptopsRepo.Add(laptop);
+        }
+
+        public void Delete(Laptop laptop)
+        {
+            this.laptopsRepo.Delete(laptop);
+        }
     }
 }

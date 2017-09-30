@@ -15,7 +15,6 @@ namespace PCstore.Data
         {
         }
 
-
         public IDbSet<Computer> Computers { get; set; }
         public IDbSet<Laptop> Laptops { get; set; }
         public IDbSet<Display> Displays { get; set; }
@@ -29,17 +28,14 @@ namespace PCstore.Data
             }
             catch (DbEntityValidationException ex)
             {
-                // Retrieve the error messages as a list of strings.
                 var errorMessages = ex.EntityValidationErrors
                         .SelectMany(x => x.ValidationErrors)
                         .Select(x => x.ErrorMessage);
 
-                // Join the list to a single string.
                 var fullErrorMessage = string.Join(Environment.NewLine, errorMessages);
 
-                // Combine the original exception message with the new one.
                 var exceptionMessage =
-                    string.Concat($"{ex.Message} {Environment.NewLine}The validation errors are: {Environment.NewLine}{fullErrorMessage}");
+                    string.Concat($"{ex.Message}{Environment.NewLine}The validation errors are:{Environment.NewLine}{fullErrorMessage}");
 
                 throw new DbEntityValidationException(exceptionMessage);
             }

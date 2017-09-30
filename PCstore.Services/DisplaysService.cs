@@ -27,5 +27,15 @@ namespace PCstore.Services
             this.displaysRepo.Update(display);
             this.context.Commit();
         }
+
+        public void Add(Display display)
+        {
+            this.displaysRepo.Add(display);
+        }
+
+        public void Delete(Display display)
+        {
+            this.displaysRepo.Delete(display);
+        }
     }
 }

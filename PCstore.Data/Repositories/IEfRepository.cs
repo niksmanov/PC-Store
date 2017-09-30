@@ -7,7 +7,6 @@ namespace PCstore.Data.Repositories
     {
         IQueryable<T> All { get; }
         IQueryable<T> AllAndDeleted { get; }
-
         void Add(T entity);
         void Delete(T entity);
         void Update(T entity);

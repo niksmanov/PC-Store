@@ -148,7 +148,7 @@ namespace PCstore.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 var user = new User { UserName = model.Email, Email = model.Email, CreatedOn = DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);

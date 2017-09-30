@@ -1,10 +1,10 @@
 ﻿@model PCstore.Web.Models.ManageLoginsViewModel
 @using Microsoft.Owin.Security
 @{
-    ViewBag.Title = "Manage your external logins";
+    ViewData["Title"] = "Manage your external logins";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2>@ViewData["Title"]</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 @{

@@ -1,0 +1,83 @@
+﻿@model DisplayViewModel
+
+<h3 align="center">@ViewData["Title"]</h3>
+
+<div class="row">
+    @using (Html.BeginForm("AddDisplay", "Device", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Add new display advertisement</h4>
+        <hr />
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Size, "Display Size", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Size, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Size, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Resolution, "Display Resolution", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Resolution, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Resolution, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Type, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Type, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Colors, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Colors, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Colors, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Price, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.SellerPhone, "Seller Phone", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SellerPhone, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SellerPhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Description, "Description", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-10">
+                <input type="submit" class="btn btn-info" value="@ViewData["Title"]" />
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

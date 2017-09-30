@@ -207,7 +207,7 @@
     <Compile Include="Infrastructure\IMapFrom.cs" />
     <Compile Include="Infrastructure\QueryableExtensions.cs" />
     <Compile Include="ViewModels\Device\ComputerViewModel.cs" />
-    <Compile Include="ViewModels\Device\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\Device\DevicesViewModel.cs" />
     <Compile Include="ViewModels\Device\DisplayViewModel.cs" />
     <Compile Include="ViewModels\Device\LaptopViewModel.cs" />
     <Compile Include="ViewModels\Manage\AddPhoneNumberViewModel.cs" />
@@ -301,6 +301,12 @@
     <Content Include="Views\Device\Laptops.cshtml" />
     <Content Include="Views\Device\Computers.cshtml" />
     <Content Include="Views\Device\Displays.cshtml" />
+    <Content Include="Views\Device\Computer.cshtml" />
+    <Content Include="Views\Device\Display.cshtml" />
+    <Content Include="Views\Device\Laptop.cshtml" />
+    <Content Include="Views\Device\AddComputer.cshtml" />
+    <Content Include="Views\Device\AddLaptop.cshtml" />
+    <Content Include="Views\Device\AddDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,4 +1,39 @@
 ﻿@model LaptopViewModel
 
-<p>@Model.Id</p>
-<p>@Model.CPU</p>
+<h3 align="center">@Model.Seller.Email.Split('@')[0]'s advertisement</h3>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5" align="center">
+            <img class="img-responsive" src="~/Images/image5.png">
+        </div>
+        <div class="col-md-5">
+            <h4><strong>Owner details: </strong></h4>
+            <p><span class="glyphicon glyphicon-envelope"></span> Email: @Model.Seller.Email </p>
+            <p><span class="glyphicon glyphicon-phone-alt"></span> Phone number: @Model.SellerPhone</p>
+        </div>
+    </div>
+
+    <h4><strong>Product details: </strong></h4>
+    <div class="row">
+        <div class="col-md-5">
+            <p><span class="glyphicon glyphicon-blackboard"></span> Display Size: @Model.DisplaySize "</p>
+            <p><span class="glyphicon glyphicon-subtitles"></span> Display Resolution: @Model.DisplayResolution</p>
+            <p><span class="glyphicon glyphicon-cog"></span> CPU Name: @Model.CPU</p>
+            <p><span class="glyphicon glyphicon-road"></span> CPU Speed: @Model.CpuSpeed Ghz</p>
+            <p><span class="glyphicon glyphicon-plane"></span> RAM Size: @Model.RAM GB</p>
+            <p><span class="glyphicon glyphicon-inbox"></span> RAM Type: @Model.RamType</p>
+            <p><span class="glyphicon glyphicon-hdd"></span> HDD Size: @Model.HDD GB</p>
+            <p><span class="glyphicon glyphicon-picture"></span> GPU Name: @Model.GPU</p>
+        </div>
+        <div class="col-md-5">
+            <p><span class="glyphicon glyphicon-hd-video"></span> GPU Memory: @Model.GpuMemory GB</p>
+            <p><span class="glyphicon glyphicon-flash"></span> Battery: @Model.Battery</p>
+            <p><span class="glyphicon glyphicon-eye-open"></span> Optical Device: @Model.OpticalDevice</p>
+            <p><span class="glyphicon glyphicon glyphicon-th"></span> Operating System: @Model.OperatingSystem</p>
+            <p><span class="glyphicon glyphicon-calendar"></span> Posted On: @Model.PostedOn</p>
+            <p><span class="glyphicon glyphicon-euro"></span> Price: @Model.Price €</p>
+            <p><span class="glyphicon glyphicon-list-alt"></span> Description: @Model.Description</p>
+        </div>
+    </div>
+</div>

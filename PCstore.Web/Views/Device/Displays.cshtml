@@ -1,18 +1,33 @@
-﻿@model DevicesViewModel
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<DisplayViewModel>
+
+@Styles.Render("~/Content/advertisement")
 
 <h3 align="center">@ViewData["Title"]</h3>
 
-
-@foreach (var display in Model.Displays)
-{
-    <data>@display.Size</data>
-    <data>@display.Resolution</data>
-    <data>@display.Type</data>
-    <data>@display.Colors</data>
-    <data>@display.Price</data>
-    <data>@display.SellerPhone</data>
-    <data>@display.Seller.Email</data>
-    <data>@display.Description</data>
-    <data>@display.PostedOn</data>
-    <hr />
-}
+<div class="container">
+    
+    @foreach (var display in Model)
+    {
+        <div class="row">
+            <a class="list-group-item clearfix" href="@Url.Action("Display", "Device",  new { display.Id }, null)">
+                <div class="col-md-3">
+                    <img class="media-object" src="~/Images/image8.png" width="120">
+                </div>
+                <div class="col-md-3">
+                    <p><strong>Size: </strong>@display.Size "</p>
+                    <p><strong>Resolution: </strong>@display.Resolution</p>
+                    <p><strong>Type: </strong>@display.Type</p>
+                </div>
+                <div class="col-md-3">
+                    <p><strong>Colors: </strong>@display.Colors</p>
+                    <p><strong>Price: </strong>@display.Price €</p>
+                    <p><strong>Posted On: </strong>@display.PostedOn.ToShortDateString()</p>
+                </div>                
+            </a>
+        </div>
+    }
+</div>
+@Html.PagedListPager(Model, page => Url.Action("Displays", new { page }))

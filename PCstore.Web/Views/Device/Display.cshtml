@@ -1,4 +1,31 @@
 ﻿@model DisplayViewModel
 
-<p>@Model.Id</p>
-<p>@Model.Colors</p>
+<h3 align="center">@Model.Seller.Email.Split('@')[0]'s advertisement</h3>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5" align="center">
+            <img class="img-responsive" src="~/Images/image3.png">
+        </div>
+        <div class="col-md-5">
+            <h4><strong>Owner details: </strong></h4>
+            <p><span class="glyphicon glyphicon-envelope"></span> Email: @Model.Seller.Email </p>
+            <p><span class="glyphicon glyphicon-phone-alt"></span> Phone number: @Model.SellerPhone</p>
+        </div>
+    </div>
+
+    <h4><strong>Product details: </strong></h4>
+    <div class="row">
+        <div class="col-md-5">
+            <p><span class="glyphicon glyphicon-blackboard"></span> Size: @Model.Size "</p>
+            <p><span class="glyphicon glyphicon-subtitles"></span> Resolution: @Model.Resolution</p>
+            <p><span class="glyphicon glyphicon-film"></span> Type: @Model.Type</p>
+            <p><span class="glyphicon glyphicon-adjust"></span> Colors: @Model.Colors</p>
+        </div>
+        <div class="col-md-5">
+            <p><span class="glyphicon glyphicon-calendar"></span> Posted On: @Model.PostedOn</p>
+            <p><span class="glyphicon glyphicon-euro"></span> Price: @Model.Price €</p>
+            <p><span class="glyphicon glyphicon-list-alt"></span> Description: @Model.Description</p>
+        </div>
+    </div>
+</div>

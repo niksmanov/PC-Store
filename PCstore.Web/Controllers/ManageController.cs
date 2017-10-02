@@ -6,6 +6,13 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PCstore.Web.Models;
+using Ninject;
+using PCstore.Services.Contracts;
+using AutoMapper;
+using PCstore.Data.UnitOfWork;
+using AutoMapper.QueryableExtensions;
+using PCstore.Web.ViewModels.Device;
+using System;
 
 namespace PCstore.Web.Controllers
 {
@@ -14,6 +21,13 @@ namespace PCstore.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        
+        private readonly IMapper mapper;
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IUsersService usersService;
+        private readonly IComputersService computersService;
+        private readonly ILaptopsService laptopsService;
+        private readonly IDisplaysService displaysService;
 
         public ManageController()
         {
@@ -25,6 +39,18 @@ namespace PCstore.Web.Controllers
             SignInManager = signInManager;
         }
 
+        public ManageController(IMapper mapper, IUnitOfWork unitOfWork, IUsersService usersService,
+          IComputersService computersService, ILaptopsService laptopsService, IDisplaysService displaysService)
+        {
+            this.mapper = mapper;
+            this.unitOfWork = unitOfWork;
+            this.usersService = usersService;
+            this.computersService = computersService;
+            this.laptopsService = laptopsService;
+            this.displaysService = displaysService;
+        }
+             
+      
         public ApplicationSignInManager SignInManager
         {
             get
@@ -49,7 +75,7 @@ namespace PCstore.Web.Controllers
             }
         }
 
-        //
+        // USER PROFILE \\
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
@@ -61,9 +87,35 @@ namespace PCstore.Web.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
-
+                          
             var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
+
+            var computers = this.computersService
+                .GetAll()
+                .Where(x => x.Seller.Id == userId)
+                .ProjectTo<ComputerViewModel>()
+                .ToList();
+
+            var laptops = this.laptopsService
+                .GetAll()
+                .Where(x => x.Seller.Id == userId)
+                .ProjectTo<LaptopViewModel>()
+                .ToList();
+
+            var displays = this.displaysService
+                .GetAll()
+                .Where(x => x.Seller.Id == userId)
+                .ProjectTo<DisplayViewModel>()
+                .ToList();
+
+            var devices = new DevicesViewModel()
+            {
+                Computers = computers,
+                Laptops = laptops,
+                Displays = displays
+            };
+
+            var user = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
@@ -71,7 +123,10 @@ namespace PCstore.Web.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
-            return View(model);
+
+            var viewModel = new Tuple<IndexViewModel, DevicesViewModel>(user, devices);
+
+            return View(viewModel);
         }
 
         //

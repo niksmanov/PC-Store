@@ -1,26 +1,40 @@
-﻿@model DevicesViewModel
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<LaptopViewModel>
+
+@Styles.Render("~/Content/advertisement")
 
 <h3 align="center">@ViewData["Title"]</h3>
 
+<div class="container">
 
-@foreach (var laptop in Model.Laptops)
-{
-    <data>@laptop.DisplaySize</data>
-    <data>@laptop.DisplayResolution</data>
-    <data>@laptop.CPU</data>
-    <data>@laptop.CpuSpeed</data>
-    <data>@laptop.RAM</data>
-    <data>@laptop.RamType</data>
-    <data>@laptop.HDD</data>
-    <data>@laptop.GPU</data>
-    <data>@laptop.GpuMemory</data>
-    <data>@laptop.Battery</data>
-    <data>@laptop.OpticalDevice</data>
-    <data>@laptop.OperatingSystem</data>
-    <data>@laptop.Price</data>
-    <data>@laptop.SellerPhone</data>
-    <data>@laptop.Seller.Email</data>
-    <data>@laptop.Description</data>
-    <data>@laptop.PostedOn</data>
-    <hr />
-}
+    @foreach (var laptop in Model)
+    {
+        <div class="row">
+            <a class="list-group-item clearfix" href="@Url.Action("Laptop", "Device",  new { laptop.Id }, null)">
+                <div class="col-md-3">
+                    <img class="media-object" src="~/Images/image7.png" width="120">
+                </div>
+                <div class="col-md-3">
+                    <p><strong>Display: </strong>@laptop.DisplaySize "</p>
+                    <p><strong>CPU: </strong>@laptop.CPU</p>
+                    <p><strong>CPU Speed: </strong>@laptop.CpuSpeed Ghz</p>
+                </div>
+                <div class="col-md-3">
+                    <p><strong>RAM: </strong>@laptop.RAM GB</p>
+                    <p><strong>HDD: </strong>@laptop.HDD GB</p>
+                    <p><strong>GPU: </strong>@laptop.GPU</p>
+                </div>
+                <div class="col-md-3">
+                    <p><strong>GPU Memory: </strong>@laptop.GpuMemory GB</p>
+                    <p><strong>Price: </strong>@laptop.Price €</p>
+                    <p>
+                        <strong>Posted On: </strong>@laptop.PostedOn.ToShortDateString()
+                    </p>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+@Html.PagedListPager(Model, page => Url.Action("Laptops", new { page }))

@@ -8,6 +8,7 @@ using PCstore.Web.ViewModels.Device;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using PagedList;
 
 namespace PCstore.Web.Controllers
 {
@@ -20,7 +21,7 @@ namespace PCstore.Web.Controllers
         private readonly ILaptopsService laptopsService;
         private readonly IDisplaysService displaysService;
 
-        public DeviceController(IMapper mapper, IUnitOfWork unitOfWork, IUsersService usersService, 
+        public DeviceController(IMapper mapper, IUnitOfWork unitOfWork, IUsersService usersService,
             IComputersService computersService, ILaptopsService laptopsService, IDisplaysService displaysService)
         {
             this.mapper = mapper;
@@ -32,9 +33,9 @@ namespace PCstore.Web.Controllers
         }
 
 
-        // Computers \\
+        // COMPUTERS \\
         [HttpGet]
-        public ActionResult Computers()
+        public ActionResult Computers(int? page)
         {
             ViewData["Title"] = "Computers";
 
@@ -48,12 +49,16 @@ namespace PCstore.Web.Controllers
                 Computers = computers
             };
 
-            return View(viewModel);
+            var pageNumber = page ?? 1;
+            var pageSize = 10;
+            return View(viewModel.Computers.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
         public ActionResult Computer(Guid Id)
         {
+            ViewData["Title"] = "Computer";
+
             var computer = this.computersService
                 .GetAll()
                 .ProjectTo<ComputerViewModel>()
@@ -71,6 +76,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult AddComputer(Computer model)
         {
@@ -86,9 +92,9 @@ namespace PCstore.Web.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        // Laptops \\
+        // LAPTOPS \\
         [HttpGet]
-        public ActionResult Laptops()
+        public ActionResult Laptops(int? page)
         {
             ViewData["Title"] = "Laptops";
 
@@ -102,16 +108,20 @@ namespace PCstore.Web.Controllers
                 Laptops = laptops
             };
 
-            return View(viewModel);
+            var pageNumber = page ?? 1;
+            var pageSize = 10;
+            return View(viewModel.Laptops.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
         public ActionResult Laptop(Guid Id)
         {
+            ViewData["Title"] = "Laptop";
+
             var laptop = this.laptopsService
-                .GetAll()
-                .ProjectTo<ComputerViewModel>()
-                .SingleOrDefault(x => x.Id == Id);
+                 .GetAll()
+                 .ProjectTo<LaptopViewModel>()
+                 .SingleOrDefault(x => x.Id == Id);
 
             return View(laptop);
         }
@@ -125,6 +135,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult AddLaptop(Laptop model)
         {
@@ -140,9 +151,9 @@ namespace PCstore.Web.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        // Displays \\
+        // DISPLAYS \\
         [HttpGet]
-        public ActionResult Displays()
+        public ActionResult Displays(int? page)
         {
             ViewData["Title"] = "Displays";
 
@@ -156,16 +167,20 @@ namespace PCstore.Web.Controllers
                 Displays = displays
             };
 
-            return View(viewModel);
+            var pageNumber = page ?? 1;
+            var pageSize = 10;
+            return View(viewModel.Displays.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
         public ActionResult Display(Guid Id)
         {
-            var display = this.computersService
-                .GetAll()
-                .ProjectTo<ComputerViewModel>()
-                .SingleOrDefault(x => x.Id == Id);
+            ViewData["Title"] = "Display";
+
+            var display = this.displaysService
+                   .GetAll()
+                   .ProjectTo<DisplayViewModel>()
+                   .SingleOrDefault(x => x.Id == Id);
 
             return View(display);
         }
@@ -179,6 +194,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult AddDisplay(Display model)
         {

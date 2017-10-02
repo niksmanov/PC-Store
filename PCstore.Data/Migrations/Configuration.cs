@@ -54,23 +54,24 @@ namespace PCstore.Data.Migrations
 
         private void SeedSampleData(MsSqlDbContext context)
         {
+            var random = new Random();
             if (!context.Computers.Any())
             {
-                for (int i = 2; i < 10; i++)
+                for (int i = 2; i < 50; i++)
                 {
                     var computer = new Computer()
                     {
                         CPU = $"Intel Core I{i} {i}0{i}0",
-                        CpuSpeed = double.Parse($"{i / 2}.{i}"),
-                        RAM = i * 2,
+                        CpuSpeed = random.Next(1, 5),
+                        RAM = i,
                         RamType = $"DDR{i}",
-                        HDD = i * 100,
+                        HDD = i * 10,
                         GPU = $"Nvidia GeForce {i}{i}00",
-                        GpuMemory = int.Parse($"{i / 2}"),
+                        GpuMemory = random.Next(1, 8),
                         OpticalDevice = $"LG DVD-RW class {i}",
                         OperatingSystem = $"Windows {i}",
-                        Price = decimal.Parse($"{i}{i}0"),
-                        SellerPhone = $"088{i}9{i}6{i}4{i}",
+                        Price = decimal.Parse($"{i}{i}"),
+                        SellerPhone = $"088{i}9{i}64",
                         Description = "Good computer for this price!",
                         Seller = context.Users.First(x => x.Email == AdministratorUserName),
                         CreatedOn = DateTime.Now
@@ -81,24 +82,24 @@ namespace PCstore.Data.Migrations
 
             if (!context.Laptops.Any())
             {
-                for (int i = 2; i < 10; i++)
+                for (int i = 2; i < 50; i++)
                 {
                     var laptop = new Laptop()
                     {
-                        DisplaySize = double.Parse($"{i}.{i}"),
+                        DisplaySize = random.Next(1, 19),
                         DisplayResolution = $"{i * 2}00x{i}00",
                         CPU = $"Intel Core I{i} {i}0{i}0",
-                        CpuSpeed = double.Parse($"{i / 2}.{i}"),
-                        RAM = i * 2,
+                        CpuSpeed = random.Next(1, 5),
+                        RAM = i,
                         RamType = $"DDR{i}",
-                        HDD = i * 100,
+                        HDD = i * 10,
                         GPU = $"Nvidia GeForce {i}{i}00",
-                        GpuMemory = int.Parse($"{i / 2}"),
+                        GpuMemory = random.Next(1, 8),
                         Battery = "Li-Pol",
                         OpticalDevice = $"Samsung DVD-RW class {i}",
                         OperatingSystem = $"Windows {i}",
-                        Price = decimal.Parse($"{i}{i}0"),
-                        SellerPhone = $"087{i}5{i}2{i}9{i}",
+                        Price = decimal.Parse($"{i}{i}"),
+                        SellerPhone = $"087{i}5{i}23",
                         Description = "Good laptop for this price!",
                         Seller = context.Users.First(x => x.Email == AdministratorUserName),
                         CreatedOn = DateTime.Now
@@ -109,16 +110,16 @@ namespace PCstore.Data.Migrations
 
             if (!context.Displays.Any())
             {
-                for (int i = 2; i < 10; i++)
+                for (int i = 2; i < 50; i++)
                 {
                     var display = new Display()
                     {
-                        Size = double.Parse($"{i}.{i}"),
+                        Size = random.Next(1, 19),
                         Resolution = $"{i * 2}00x{i}00",
                         Type = "IPS",
-                        Colors = double.Parse($"{i}{i}{i}0000"),
-                        Price = decimal.Parse($"{i}{i}0"),
-                        SellerPhone = $"089{i}2{i}6{i}4{i}",
+                        Colors = random.Next(256000, 17000000),
+                        Price = decimal.Parse($"{i}{i}"),
+                        SellerPhone = $"089{i}2{i}64",
                         Description = "Good display for this price!",
                         Seller = context.Users.First(x => x.Email == AdministratorUserName),
                         CreatedOn = DateTime.Now

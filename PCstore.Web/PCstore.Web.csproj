@@ -430,6 +430,9 @@
     <Content Include="Views\Device\UpdateComputer.cshtml" />
     <Content Include="Views\Device\UpdateLaptop.cshtml" />
     <Content Include="Views\Device\UpdateDisplay.cshtml" />
+    <Content Include="Views\Store\IndexCache.cshtml" />
+    <Content Include="Views\Store\AboutCache.cshtml" />
+    <Content Include="Views\Store\ContactCache.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -6,5 +6,6 @@ namespace PCstore.Services.Contracts
     public interface IUsersService
     {
         IQueryable<User> GetAll();
+        void Block(User user);
     }
 }

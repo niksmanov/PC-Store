@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Caching;
 
 namespace PCstore.Web.Controllers
 {
@@ -11,11 +12,25 @@ namespace PCstore.Web.Controllers
             return View();
         }
 
+        [OutputCache(Duration = 3600, VaryByParam = "none")]
+        [ChildActionOnly]
+        public ActionResult IndexCache()
+        {
+            return this.PartialView();
+        }
+
         public ActionResult About()
         {
             ViewData["Title"] = "About";
 
             return View();
+        }
+
+        [OutputCache(Duration = 3600, VaryByParam = "none")]
+        [ChildActionOnly]
+        public ActionResult AboutCache()
+        {
+            return this.PartialView();
         }
 
         public ActionResult Contact()
@@ -25,6 +40,11 @@ namespace PCstore.Web.Controllers
             return View();
         }
 
-
+        [OutputCache(Duration = 3600, VaryByParam = "none")]
+        [ChildActionOnly]
+        public ActionResult ContactCache()
+        {
+            return this.PartialView();
+        }
     }
 }

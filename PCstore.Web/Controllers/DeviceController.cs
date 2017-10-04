@@ -2,12 +2,12 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNet.Identity;
 using PCstore.Data.Model;
-using PCstore.Data.UnitOfWork;
 using PCstore.Services.Contracts;
 using PCstore.Web.ViewModels.Device;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Caching;
 using PagedList;
 
 namespace PCstore.Web.Controllers
@@ -15,17 +15,15 @@ namespace PCstore.Web.Controllers
     public class DeviceController : Controller
     {
         private readonly IMapper mapper;
-        private readonly IUnitOfWork unitOfWork;
         private readonly IUsersService usersService;
         private readonly IComputersService computersService;
         private readonly ILaptopsService laptopsService;
         private readonly IDisplaysService displaysService;
 
-        public DeviceController(IMapper mapper, IUnitOfWork unitOfWork, IUsersService usersService,
+        public DeviceController(IMapper mapper, IUsersService usersService,
             IComputersService computersService, ILaptopsService laptopsService, IDisplaysService displaysService)
         {
             this.mapper = mapper;
-            this.unitOfWork = unitOfWork;
             this.usersService = usersService;
             this.computersService = computersService;
             this.laptopsService = laptopsService;
@@ -35,6 +33,7 @@ namespace PCstore.Web.Controllers
 
         // COMPUTERS \\
         [HttpGet]
+        [OutputCache(CacheProfile = "ShortLived")]
         public ActionResult Computers(int? page)
         {
             ViewData["Title"] = "Computers";
@@ -89,7 +88,6 @@ namespace PCstore.Web.Controllers
             model.CreatedOn = DateTime.Now;
             model.Seller = currentUser;
             this.computersService.Add(model);
-            this.unitOfWork.Commit();
 
             return RedirectToAction("Index", "Manage");
         }
@@ -116,13 +114,13 @@ namespace PCstore.Web.Controllers
         public ActionResult UpdateComputer(Computer model)
         {
             this.computersService.Update(model);
-            this.unitOfWork.Commit();
 
             return RedirectToAction("Index", "Manage");
         }
 
         // LAPTOPS \\
         [HttpGet]
+        [OutputCache(CacheProfile = "ShortLived")]
         public ActionResult Laptops(int? page)
         {
             ViewData["Title"] = "Laptops";
@@ -176,7 +174,6 @@ namespace PCstore.Web.Controllers
             model.CreatedOn = DateTime.Now;
             model.Seller = currentUser;
             this.laptopsService.Add(model);
-            this.unitOfWork.Commit();
 
             return RedirectToAction("Index", "Manage");
         }
@@ -202,13 +199,13 @@ namespace PCstore.Web.Controllers
         public ActionResult UpdateLaptop(Laptop model)
         {
             this.laptopsService.Update(model);
-            this.unitOfWork.Commit();
 
             return RedirectToAction("Index", "Manage");
         }
 
         // DISPLAYS \\
         [HttpGet]
+        [OutputCache(CacheProfile = "ShortLived")]
         public ActionResult Displays(int? page)
         {
             ViewData["Title"] = "Displays";
@@ -262,7 +259,6 @@ namespace PCstore.Web.Controllers
             model.CreatedOn = DateTime.Now;
             model.Seller = currentUser;
             this.displaysService.Add(model);
-            this.unitOfWork.Commit();
 
             return RedirectToAction("Index", "Manage");
         }
@@ -288,7 +284,6 @@ namespace PCstore.Web.Controllers
         public ActionResult UpdateDisplay(Display model)
         {
             this.displaysService.Update(model);
-            this.unitOfWork.Commit();
 
             return RedirectToAction("Index", "Manage");
         }

@@ -9,10 +9,12 @@ namespace PCstore.Services
     public class ComputersService : IComputersService
     {
         private readonly IEfRepository<Computer> computersRepo;
+        private readonly IUnitOfWork unitOfWork;
 
-        public ComputersService(IEfRepository<Computer> computersRepo)
+        public ComputersService(IEfRepository<Computer> computersRepo, IUnitOfWork unitOfWork)
         {
             this.computersRepo = computersRepo;
+            this.unitOfWork = unitOfWork;
         }
 
         public IQueryable<Computer> GetAll()
@@ -23,16 +25,19 @@ namespace PCstore.Services
         public void Update(Computer computer)
         {
             this.computersRepo.Update(computer);
+            this.unitOfWork.Commit();
         }
 
         public void Add(Computer computer)
         {
             this.computersRepo.Add(computer);
+            this.unitOfWork.Commit();
         }
 
         public void Delete(Computer computer)
         {
             this.computersRepo.Delete(computer);
-        }      
+            this.unitOfWork.Commit();
+        }
     }
 }

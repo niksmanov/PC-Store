@@ -9,7 +9,6 @@ using PCstore.Web.Models;
 using Ninject;
 using PCstore.Services.Contracts;
 using AutoMapper;
-using PCstore.Data.UnitOfWork;
 using AutoMapper.QueryableExtensions;
 using PCstore.Web.ViewModels.Device;
 using System;
@@ -25,7 +24,6 @@ namespace PCstore.Web.Controllers
         private ApplicationUserManager _userManager;
 
         private readonly IMapper mapper;
-        private readonly IUnitOfWork unitOfWork;
         private readonly IUsersService usersService;
         private readonly IComputersService computersService;
         private readonly ILaptopsService laptopsService;
@@ -41,11 +39,10 @@ namespace PCstore.Web.Controllers
             SignInManager = signInManager;
         }
 
-        public ManageController(IMapper mapper, IUnitOfWork unitOfWork, IUsersService usersService,
-          IComputersService computersService, ILaptopsService laptopsService, IDisplaysService displaysService)
+        public ManageController(IMapper mapper, IUsersService usersService,
+            IComputersService computersService, ILaptopsService laptopsService, IDisplaysService displaysService)
         {
             this.mapper = mapper;
-            this.unitOfWork = unitOfWork;
             this.usersService = usersService;
             this.computersService = computersService;
             this.laptopsService = laptopsService;
@@ -161,7 +158,6 @@ namespace PCstore.Web.Controllers
                     var display = this.displaysService.GetAll().Single(x => x.Id == id);
                     this.displaysService.Delete(display); break;
             }
-            this.unitOfWork.Commit();
             return Json(null);
         }
 

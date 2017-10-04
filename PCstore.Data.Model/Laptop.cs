@@ -75,7 +75,6 @@ namespace PCstore.Data.Model
         [MaxLength(500)]
         public string Description { get; set; }
 
-        [Required]
         public virtual User Seller { get; set; }
     }
 }

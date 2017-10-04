@@ -6,7 +6,7 @@ using AutoMapper;
 
 namespace PCstore.Web.ViewModels.Device
 {
-    public class DisplayViewModel : IMapFrom<Display>, IHaveCustomMappings
+    public class DisplayViewModel : IMapFrom<Display>, IHaveCustomMappings, IDeviceViewModel
     {
         public Guid Id { get; set; }
 

@@ -1,14 +1,15 @@
 ﻿@using PCstore.Web.Models
-@model Tuple<IndexViewModel, DevicesViewModel>
+@using PagedList.Mvc;
+@using PagedList;
 
-@{
-    ViewData["Title"] = "Manage";
-}
+@model Tuple<IndexViewModel, IPagedList<IDeviceViewModel>>
 
 <h3 align="center">@ViewData["Title"]</h3>
 
+@Styles.Render("~/Content/advertisement")
 
-<div>
+<div class="container">
+
     <div class="row">
         <div class="col-md-6">
             <h4 align="center">Change your account settings</h4>
@@ -50,10 +51,9 @@
 
     <hr />
 
-    <h4 align="center">See all your advertisements</h4>
+    <h4 align="center">All your advertisements</h4>
 
-    @if (Model.Item2.Computers.Count == 0 &&
-            Model.Item2.Displays.Count == 0 && Model.Item2.Laptops.Count == 0)
+    @if (Model.Item2.Count == 0)
     {
         <h5 align="center" style="color:red">
             <strong>
@@ -61,20 +61,69 @@
             </strong>
         </h5>
     }
-
-
-    @foreach (var device in Model.Item2.Computers)
+    else
     {
-        <p>@device.CPU</p>
-    }
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Device Type</th>
+                        <th>Posted On</th>
+                        <th>Price</th>
+                        <th>See Ad</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
 
-    @foreach (var device in Model.Item2.Laptops)
-    {
-        <p>@device.CPU</p>
-    }
+                <tbody>
+                    @foreach (var device in Model.Item2)
+                    {
+                        string deviceType = device.GetType().Name
+                            .Split(new string[] { "ViewModel" },
+                            StringSplitOptions.RemoveEmptyEntries)[0];
 
-    @foreach (var device in Model.Item2.Displays)
-    {
-        <p>@device.Colors</p>
+                        <tr>
+                            <td>@deviceType</td>
+                            <td>@device.PostedOn</td>
+                            <td>@device.Price €</td>
+                            <td>
+                                <a class="btn btn-default" target="_blank"
+                                   href="@Url.Action(deviceType, "Device", new { device.Id }, null)">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </a>
+                            </td>
+
+
+                            <td>
+                                <button type="submit" class="button btn btn-basic">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
+                            </td>
+
+
+                            <td>
+                                @Ajax.ActionLink("X", "Index", "Manage",
+                                    new { type = deviceType, id = device.Id },
+                                    new AjaxOptions { HttpMethod = "POST" },
+                                    new { @class = "button btn btn-danger" })
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
 </div>
+
+<div align="center">
+    @Html.PagedListPager(Model.Item2, page => Url.Action("Index", new { page }))
+</div>
+
+@section scripts {
+    <script>
+        $(".btn-danger").on('click', (event) => {
+            let el = $(event.target);
+            el.parent().parent().remove();
+        });
+    </script>
+}

@@ -218,6 +218,7 @@
     <Compile Include="ViewModels\Device\ComputerViewModel.cs" />
     <Compile Include="ViewModels\Device\DevicesViewModel.cs" />
     <Compile Include="ViewModels\Device\DisplayViewModel.cs" />
+    <Compile Include="ViewModels\Device\IDeviceViewModel.cs" />
     <Compile Include="ViewModels\Device\LaptopViewModel.cs" />
     <Compile Include="ViewModels\Manage\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\Account\ChangePasswordViewModel.cs" />
@@ -240,7 +241,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\advertisement.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -369,6 +369,8 @@
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

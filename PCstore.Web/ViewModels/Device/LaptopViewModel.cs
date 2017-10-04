@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PCstore.Web.ViewModels.Device
 {
-    public class LaptopViewModel : IMapFrom<Laptop>, IHaveCustomMappings
+    public class LaptopViewModel : IMapFrom<Laptop>, IHaveCustomMappings, IDeviceViewModel
     {
         public Guid Id { get; set; }
 

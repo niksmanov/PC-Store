@@ -13,6 +13,8 @@ using PCstore.Data.UnitOfWork;
 using AutoMapper.QueryableExtensions;
 using PCstore.Web.ViewModels.Device;
 using System;
+using System.Collections.Generic;
+using PagedList;
 
 namespace PCstore.Web.Controllers
 {
@@ -21,7 +23,7 @@ namespace PCstore.Web.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        
+
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
         private readonly IUsersService usersService;
@@ -49,8 +51,8 @@ namespace PCstore.Web.Controllers
             this.laptopsService = laptopsService;
             this.displaysService = displaysService;
         }
-             
-      
+
+
         public ApplicationSignInManager SignInManager
         {
             get
@@ -77,7 +79,8 @@ namespace PCstore.Web.Controllers
 
         // USER PROFILE \\
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        [HttpGet]
+        public async Task<ActionResult> Index(ManageMessageId? message, int? page)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -87,7 +90,9 @@ namespace PCstore.Web.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
-                          
+
+            ViewData["Title"] = "Manage";
+
             var userId = User.Identity.GetUserId();
 
             var computers = this.computersService
@@ -115,6 +120,11 @@ namespace PCstore.Web.Controllers
                 Displays = displays
             };
 
+            var collection = new List<IDeviceViewModel>();
+            collection.AddRange(computers);
+            collection.AddRange(laptops);
+            collection.AddRange(displays);
+
             var user = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -124,9 +134,33 @@ namespace PCstore.Web.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
 
-            var viewModel = new Tuple<IndexViewModel, DevicesViewModel>(user, devices);
 
+            var pageNumber = page ?? 1;
+            var pageSize = 10;
+            var paging = collection.ToPagedList(pageNumber, pageSize);
+
+            var viewModel = new Tuple<IndexViewModel, IPagedList<IDeviceViewModel>>(user, paging);
             return View(viewModel);
+        }
+
+        // Delete Advertisement \\
+        [HttpPost]
+        public ActionResult Index(string type, Guid id)
+        {
+            switch (type)
+            {
+                case "Computer":
+                    var computer = this.computersService.GetAll().Single(x => x.Id == id);
+                    this.computersService.Delete(computer); break;
+                case "Laptop":
+                    var laptop = this.laptopsService.GetAll().Single(x => x.Id == id);
+                    this.laptopsService.Delete(laptop); break;
+                case "Display":
+                    var display = this.displaysService.GetAll().Single(x => x.Id == id);
+                    this.displaysService.Delete(display); break;
+            }
+            this.unitOfWork.Commit();
+            return Json(null);
         }
 
         //

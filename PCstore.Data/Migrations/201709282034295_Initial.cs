@@ -28,10 +28,10 @@ namespace PCstore.Data.Migrations
                         DeletedOn = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         ModifiedOn = c.DateTime(),
-                        Seller_Id = c.String(nullable: false, maxLength: 128),
+                        Seller_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.Seller_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.Seller_Id)
                 .Index(t => t.IsDeleted)
                 .Index(t => t.Seller_Id);
             
@@ -114,10 +114,10 @@ namespace PCstore.Data.Migrations
                         DeletedOn = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         ModifiedOn = c.DateTime(),
-                        Seller_Id = c.String(nullable: false, maxLength: 128),
+                        Seller_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.Seller_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.Seller_Id)
                 .Index(t => t.IsDeleted)
                 .Index(t => t.Seller_Id);
             
@@ -145,10 +145,10 @@ namespace PCstore.Data.Migrations
                         DeletedOn = c.DateTime(),
                         CreatedOn = c.DateTime(),
                         ModifiedOn = c.DateTime(),
-                        Seller_Id = c.String(nullable: false, maxLength: 128),
+                        Seller_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.Seller_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.Seller_Id)
                 .Index(t => t.IsDeleted)
                 .Index(t => t.Seller_Id);
             

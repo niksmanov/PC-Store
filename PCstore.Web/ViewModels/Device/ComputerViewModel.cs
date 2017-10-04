@@ -6,7 +6,7 @@ using AutoMapper;
 
 namespace PCstore.Web.ViewModels.Device
 {
-    public class ComputerViewModel : IMapFrom<Computer>, IHaveCustomMappings
+    public class ComputerViewModel : IMapFrom<Computer>, IHaveCustomMappings, IDeviceViewModel
     {
         public Guid Id { get; set; }
 

@@ -8,7 +8,7 @@
 <h3 align="center">@ViewData["Title"]</h3>
 
 <div class="container">
-    
+
     @foreach (var display in Model)
     {
         <div class="row">
@@ -25,9 +25,12 @@
                     <p><strong>Colors: </strong>@display.Colors</p>
                     <p><strong>Price: </strong>@display.Price €</p>
                     <p><strong>Posted On: </strong>@display.PostedOn.ToShortDateString()</p>
-                </div>                
+                </div>
             </a>
         </div>
     }
 </div>
-@Html.PagedListPager(Model, page => Url.Action("Displays", new { page }))
+
+<div align="center">
+    @Html.PagedListPager(Model, page => Url.Action("Displays", new { page }))
+</div>

@@ -35,6 +35,9 @@
                 </div>
             </a>
         </div>
-    }    
+    }
 </div>
-@Html.PagedListPager(Model, page => Url.Action("Computers", new { page }))
+
+<div align="center">
+    @Html.PagedListPager(Model, page => Url.Action("Computers", new { page }))
+</div>

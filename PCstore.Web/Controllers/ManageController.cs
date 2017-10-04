@@ -125,6 +125,8 @@ namespace PCstore.Web.Controllers
             collection.AddRange(laptops);
             collection.AddRange(displays);
 
+            collection = collection.OrderByDescending(x => x.PostedOn).ToList();
+
             var user = new IndexViewModel
             {
                 HasPassword = HasPassword(),

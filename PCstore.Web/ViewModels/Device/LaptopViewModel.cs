@@ -119,14 +119,18 @@ namespace PCstore.Web.ViewModels.Device
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime PostedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
 
+
+        [Required]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime PostedOn { get; set; }
 
 
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
             configuration.CreateMap<Laptop, LaptopViewModel>()
-             .ForMember(viewModel => viewModel.PostedOn, cfg => cfg.MapFrom(model => model.CreatedOn));
+                .ForMember(viewModel => viewModel.PostedOn, cfg => cfg.MapFrom(model => model.ModifiedOn));
         }
     }
 }

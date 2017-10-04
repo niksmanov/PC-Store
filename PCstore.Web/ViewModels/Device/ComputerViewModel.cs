@@ -1,8 +1,8 @@
 ﻿using PCstore.Data.Model;
 using PCstore.Web.Infrastructure;
 using System;
-using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using System.ComponentModel.DataAnnotations;
 
 namespace PCstore.Web.ViewModels.Device
 {
@@ -97,14 +97,18 @@ namespace PCstore.Web.ViewModels.Device
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime PostedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
 
+
+        [Required]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime PostedOn { get; set; }
 
 
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
             configuration.CreateMap<Computer, ComputerViewModel>()
-                .ForMember(viewModel => viewModel.PostedOn, cfg => cfg.MapFrom(model => model.CreatedOn));
+                .ForMember(viewModel => viewModel.PostedOn, cfg => cfg.MapFrom(model => model.ModifiedOn));
         }
     }
 }

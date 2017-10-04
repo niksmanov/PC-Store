@@ -41,6 +41,7 @@ namespace PCstore.Web.Controllers
 
             var computers = this.computersService
                 .GetAll()
+                .OrderByDescending(x => x.ModifiedOn)
                 .ProjectTo<ComputerViewModel>()
                 .ToList();
 
@@ -67,6 +68,7 @@ namespace PCstore.Web.Controllers
             return View(computer);
         }
 
+        // Add Cpmputer \\
         [HttpGet]
         [Authorize]
         public ActionResult AddComputer()
@@ -92,6 +94,33 @@ namespace PCstore.Web.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
+
+        // Update Computer \\
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateComputer(Guid id)
+        {
+            ViewData["Title"] = "Update Computer Advertisement";
+
+            var computer = this.computersService
+                .GetAll()
+                .ProjectTo<ComputerViewModel>()
+                .Single(x => x.Id == id);
+
+            return View(computer);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateComputer(Computer model)
+        {
+            this.computersService.Update(model);
+            this.unitOfWork.Commit();
+
+            return RedirectToAction("Index", "Manage");
+        }
+
         // LAPTOPS \\
         [HttpGet]
         public ActionResult Laptops(int? page)
@@ -100,6 +129,7 @@ namespace PCstore.Web.Controllers
 
             var laptops = this.laptopsService
                .GetAll()
+               .OrderByDescending(x => x.ModifiedOn)
                .ProjectTo<LaptopViewModel>()
                .ToList();
 
@@ -151,6 +181,32 @@ namespace PCstore.Web.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
+        // Update Laptop \\
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateLaptop(Guid id)
+        {
+            ViewData["Title"] = "Update Laptop Advertisement";
+
+            var laptop = this.laptopsService
+                .GetAll()
+                .ProjectTo<LaptopViewModel>()
+                .Single(x => x.Id == id);
+
+            return View(laptop);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateLaptop(Laptop model)
+        {
+            this.laptopsService.Update(model);
+            this.unitOfWork.Commit();
+
+            return RedirectToAction("Index", "Manage");
+        }
+
         // DISPLAYS \\
         [HttpGet]
         public ActionResult Displays(int? page)
@@ -159,6 +215,7 @@ namespace PCstore.Web.Controllers
 
             var displays = this.displaysService
                .GetAll()
+               .OrderByDescending(x => x.ModifiedOn)
                .ProjectTo<DisplayViewModel>()
                .ToList();
 
@@ -205,6 +262,32 @@ namespace PCstore.Web.Controllers
             model.CreatedOn = DateTime.Now;
             model.Seller = currentUser;
             this.displaysService.Add(model);
+            this.unitOfWork.Commit();
+
+            return RedirectToAction("Index", "Manage");
+        }
+
+        // Update Display \\
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateDisplay(Guid id)
+        {
+            ViewData["Title"] = "Update Display Advertisement";
+
+            var display = this.displaysService
+                .GetAll()
+                .ProjectTo<DisplayViewModel>()
+                .Single(x => x.Id == id);
+
+            return View(display);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateDisplay(Display model)
+        {
+            this.displaysService.Update(model);
             this.unitOfWork.Commit();
 
             return RedirectToAction("Index", "Manage");

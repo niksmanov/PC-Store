@@ -427,6 +427,9 @@
     <Content Include="Views\Device\AddComputer.cshtml" />
     <Content Include="Views\Device\AddLaptop.cshtml" />
     <Content Include="Views\Device\AddDisplay.cshtml" />
+    <Content Include="Views\Device\UpdateComputer.cshtml" />
+    <Content Include="Views\Device\UpdateLaptop.cshtml" />
+    <Content Include="Views\Device\UpdateDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

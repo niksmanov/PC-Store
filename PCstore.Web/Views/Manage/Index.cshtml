@@ -69,6 +69,7 @@
                     <tr>
                         <th>Device Type</th>
                         <th>Posted On</th>
+                        <th>Created On</th>
                         <th>Price</th>
                         <th>See Ad</th>
                         <th>Edit</th>
@@ -86,6 +87,7 @@
                         <tr>
                             <td>@deviceType</td>
                             <td>@device.PostedOn</td>
+                            <td>@device.CreatedOn</td>
                             <td>@device.Price €</td>
                             <td>
                                 <a class="btn btn-default" target="_blank"
@@ -96,9 +98,10 @@
 
 
                             <td>
-                                <button type="submit" class="button btn btn-basic">
+                                <a class="btn btn-primary"
+                                   href="@Url.Action($"Update{deviceType}", "Device", new { id = device.Id }, null)">
                                     <span class="glyphicon glyphicon-pencil"></span>
-                                </button>
+                                </a>
                             </td>
 
 
@@ -106,7 +109,7 @@
                                 @Ajax.ActionLink("X", "Index", "Manage",
                                     new { type = deviceType, id = device.Id },
                                     new AjaxOptions { HttpMethod = "POST" },
-                                    new { @class = "button btn btn-danger" })
+                                    new { @class = "btn btn-danger" })
                         </tr>
                     }
                 </tbody>

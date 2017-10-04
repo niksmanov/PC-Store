@@ -9,12 +9,10 @@ namespace PCstore.Services
     public class ComputersService : IComputersService
     {
         private readonly IEfRepository<Computer> computersRepo;
-        private readonly IUnitOfWork context;
 
-        public ComputersService(IEfRepository<Computer> computersRepo, IUnitOfWork context)
+        public ComputersService(IEfRepository<Computer> computersRepo)
         {
             this.computersRepo = computersRepo;
-            this.context = context;
         }
 
         public IQueryable<Computer> GetAll()
@@ -25,7 +23,6 @@ namespace PCstore.Services
         public void Update(Computer computer)
         {
             this.computersRepo.Update(computer);
-            this.context.Commit();
         }
 
         public void Add(Computer computer)

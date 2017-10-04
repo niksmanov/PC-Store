@@ -10,6 +10,7 @@ namespace PCstore.Web.ViewModels.Device
         string SellerPhone { get; set; }
         User Seller { get; set; }
         string Description { get; set; }
-        DateTime PostedOn { get; set; }
+        DateTime CreatedOn { get; set; }
+        DateTime PostedOn { get; set; }       
     }
 }

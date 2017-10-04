@@ -27,17 +27,24 @@
             </div>
 
             <div class="form-group">
+                @{
+                    var ram = new List<int>() { 4, 8, 16, 32, 64 };
+                }
                 @Html.LabelFor(x => x.RAM, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(x => x.RAM, new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.RAM, new SelectList(ram), new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.RAM, "", new { @class = "text-danger" })
                 </div>
             </div>
 
+
             <div class="form-group">
+                @{
+                    var ramTypesList = new List<string>() { "DDR", "DDR2", "DDR3", "DDR4" };
+                }
                 @Html.LabelFor(x => x.RamType, "Ram Type", new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(x => x.RamType, new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.RamType, new SelectList(ramTypesList), new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.RamType, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -61,9 +68,12 @@
 
         <div class="col-md-6">
             <div class="form-group">
+                @{
+                    var gpuMemory = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
+                }
                 @Html.LabelFor(x => x.GpuMemory, "GPU Memory", new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(x => x.GpuMemory, new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.GpuMemory, new SelectList(gpuMemory), new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.GpuMemory, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -114,7 +124,7 @@
                 <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
             </div>
         </div>
-    }
+                    }
 </div>
 
 @section Scripts {

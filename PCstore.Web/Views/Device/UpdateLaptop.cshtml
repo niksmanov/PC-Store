@@ -3,10 +3,10 @@
 <h3 align="center">@ViewData["Title"]</h3>
 
 <div class="row">
-    @using (Html.BeginForm("AddLaptop", "Device", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("UpdateLaptop", "Device", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
-        <h4>Add new laptop advertisement</h4>
+        <h4>Update current laptop advertisement</h4>
         <hr />
 
         <div class="col-md-6">
@@ -150,6 +150,7 @@
         </div>
 
         <div class="form-group">
+            @Html.HiddenFor(x => x.CreatedOn)
             <div class="col-md-offset-5 col-md-10">
                 <input type="submit" class="btn btn-success" value="@ViewData["Title"]" />
             </div>

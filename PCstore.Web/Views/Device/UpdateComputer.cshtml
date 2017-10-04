@@ -1,34 +1,15 @@
-﻿@model LaptopViewModel
+﻿@model ComputerViewModel
 
 <h3 align="center">@ViewData["Title"]</h3>
 
 <div class="row">
-    @using (Html.BeginForm("AddLaptop", "Device", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("UpdateComputer", "Device", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
-        <h4>Add new laptop advertisement</h4>
+        <h4>Update current computer advertisement</h4>
         <hr />
 
         <div class="col-md-6">
-            <div class="form-group">
-                @{
-                    var displays = new List<double>() { 12, 13.3, 14, 15.4, 15.6, 17, 19 };
-                }
-                @Html.LabelFor(x => x.DisplaySize, "Display Size", new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(x => x.DisplaySize, new SelectList(displays), new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.DisplaySize, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(x => x.DisplayResolution, "Display Resolution", new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(x => x.DisplayResolution, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.DisplayResolution, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
             <div class="form-group">
                 @Html.LabelFor(x => x.CPU, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
@@ -56,6 +37,7 @@
                 </div>
             </div>
 
+
             <div class="form-group">
                 @{
                     var ramTypesList = new List<string>() { "DDR", "DDR2", "DDR3", "DDR4" };
@@ -74,10 +56,7 @@
                     @Html.ValidationMessageFor(x => x.HDD, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
 
-
-        <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(x => x.GPU, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
@@ -85,7 +64,9 @@
                     @Html.ValidationMessageFor(x => x.GPU, "", new { @class = "text-danger" })
                 </div>
             </div>
+        </div>
 
+        <div class="col-md-6">
             <div class="form-group">
                 @{
                     var gpuMemory = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
@@ -94,17 +75,6 @@
                 <div class="col-md-10">
                     @Html.DropDownListFor(x => x.GpuMemory, new SelectList(gpuMemory), new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.GpuMemory, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @{
-                    var battery = new List<string>() { "48wh", "56wh", "62wh", "65wh", "69wh" };
-                }
-                @Html.LabelFor(x => x.Battery, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(x => x.Battery, new SelectList(battery), new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.Battery, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -150,8 +120,9 @@
         </div>
 
         <div class="form-group">
+            @Html.HiddenFor(x => x.CreatedOn)
             <div class="col-md-offset-5 col-md-10">
-                <input type="submit" class="btn btn-success" value="@ViewData["Title"]" />
+                <input type="submit" class="btn btn-primary" value="@ViewData["Title"]" />
             </div>
         </div>
                     }

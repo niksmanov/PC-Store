@@ -1,0 +1,51 @@
+﻿@Styles.Render("~/Content/jquerygrid")
+@Scripts.Render("~/bundles/jquerygrid")
+
+<h3 align="center">@ViewData["Title"]</h3>
+
+
+<table id="jqGrid"></table>
+<div id="jqGridPager"></div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $("#jqGrid").jqGrid({
+                url: '@Url.Action("GetUsersData", "AdminPanel")',
+                mtype: 'GET',
+                datatype: "json",
+                colNames: ['Email', 'Is Deleted', 'Created On', 'Modified On'],
+                colModel: [
+                    { name: 'Email', width: 200 },
+                    { name: 'IsDeleted', width: 100 },
+                    { name: 'CreatedOn', width: 200 },
+                    { name: 'ModifiedOn', width: 200 }
+                ],
+                loadonce: true,
+                viewrecords: true,
+                jsonReader: { repeatitems: false },
+                autowidth: true,
+                refresh: true,
+                search: true,
+                ignoreCase: true,
+                height: 400,
+                rowList: [10, 20, 30, 40],
+                page: 1,
+                pager: '#jqGridPager',
+                defaults: {
+                    recordtext: "View {0} - {1} of {2}",
+                    emptyrecords: "No records to view",
+                    loadtext: "Loading...",
+                    pgtext: "Page {0} of {1}"
+                }
+            });
+            jQuery("#jqGrid").jqGrid('navGrid', '#jqGridPager', { edit: false, add: false, del: false });
+        });
+
+        $(window).on("resize", function () {
+            var $grid = $("#jqGrid"),
+                newWidth = $grid.closest(".ui-jqgrid").parent().width();
+            $grid.jqGrid("setGridWidth", newWidth, true);
+        });        
+    </script>
+}

@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNet.Identity
+
+@if (Request.IsAuthenticated)
+{
+    <form action="/account/logoff" method="post" style="display:none;" id="logoutForm" class="navbar-right">
+        @Html.AntiForgeryToken()
+    </form>
+
+    <ul class="nav navbar-nav navbar-right">
+        @if (User.IsInRole("Admin"))
+        {
+            <li><a href="/administration"><strong>Admin Panel</strong></a></li>
+        }
+        <li><a href="/manage">Hello, @User.Identity.GetUserName().Split('@')[0]</a></li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/account/register">Register</a></li>
+        <li><a href="/account/login">Log in</a></li>
+    </ul>
+}

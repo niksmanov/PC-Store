@@ -40,6 +40,9 @@ namespace PCstore.Web
             bundles.Add(new StyleBundle("~/Content/home").Include(
                      "~/Content/home.css"));
 
+            bundles.Add(new StyleBundle("~/Content/manage").Include(
+                     "~/Content/manage.css"));
+
             bundles.Add(new StyleBundle("~/Content/advertisement").Include(
                      "~/Content/PagedList.css"));
         }

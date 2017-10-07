@@ -22,7 +22,7 @@ namespace PCstore.Services
             return this.usersRepo.All;
         }
 
-        public void Block(User user)
+        public void Delete(User user)
         {
             this.usersRepo.Delete(user);
             this.unitOfWork.Commit();

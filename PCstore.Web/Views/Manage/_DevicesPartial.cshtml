@@ -1,0 +1,65 @@
+﻿<h4 align="center">All your advertisements</h4>
+
+@if (Model.Count == 0)
+{
+    <h5 align="center" style="color:red">
+        <strong>
+            You don't have advertisements!
+        </strong>
+    </h5>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Device Type</th>
+                    <th>Posted On</th>
+                    <th>Created On</th>
+                    <th>Price</th>
+                    <th>See Ad</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var device in Model)
+                {
+                    string deviceType = device.GetType().Name
+                        .Split(new string[] { "ViewModel" },
+                        StringSplitOptions.RemoveEmptyEntries)[0];
+
+                    <tr>
+                        <td>@deviceType</td>
+                        <td>@device.PostedOn</td>
+                        <td>@device.CreatedOn</td>
+                        <td>@device.Price €</td>
+                        <td>
+                            <a class="btn btn-default" target="_blank"
+                               href="@Url.Action(deviceType, "Device", new { device.Id }, null)">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                        </td>
+
+
+                        <td>
+                            <a class="btn btn-primary" target="_blank"
+                               href="@Url.Action($"Update{deviceType}", "Device", new { id = device.Id }, null)">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        </td>
+
+
+                        <td>
+                            @Ajax.ActionLink("X", "Index", "Manage",
+                                    new { type = deviceType, id = device.Id },
+                                    new AjaxOptions { HttpMethod = "POST" },
+                                    new { @class = "btn btn-danger" })
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

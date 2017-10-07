@@ -1,51 +1,61 @@
-﻿@Styles.Render("~/Content/jquerygrid")
-@Scripts.Render("~/bundles/jquerygrid")
+﻿@Scripts.Render("~/bundles/datatables")
+@Styles.Render("~/Content/datatables")
+@Styles.Render("~/Content/administration")
 
-<h3 align="center">@ViewData["Title"]</h3>
+
+<div class="container">
+    <div class="row">
+        <div class="dropdown col-sm-2">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                Adding
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="selector" id="adduser">Add User</a></li>
+                <li><a class="selector" id="addcomputer">Add Computer</a></li>
+                <li><a class="selector" id="addlaptop">Add Laptop</a></li>
+                <li><a class="selector" id="adddisplay">Add Display</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown col-sm-2">
+            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">
+                Editing
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="selector" id="users">Edit Users</a></li>
+                <li><a class="selector" id="computers">Edit Computers</a></li>
+                <li><a class="selector" id="laptos">Edit Laptops</a></li>
+                <li><a class="selector" id="displays">Edit Displays</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 
-<table id="jqGrid"></table>
-<div id="jqGridPager"></div>
+<hr />
+<div id="content">
+</div>
+
 
 @section scripts{
     <script>
-        $(function () {
-            $("#jqGrid").jqGrid({
-                url: '@Url.Action("GetUsersData", "AdminPanel")',
-                mtype: 'GET',
-                datatype: "json",
-                colNames: ['Email', 'Is Deleted', 'Created On', 'Modified On'],
-                colModel: [
-                    { name: 'Email', width: 200 },
-                    { name: 'IsDeleted', width: 100 },
-                    { name: 'CreatedOn', width: 200 },
-                    { name: 'ModifiedOn', width: 200 }
-                ],
-                loadonce: true,
-                viewrecords: true,
-                jsonReader: { repeatitems: false },
-                autowidth: true,
-                refresh: true,
-                search: true,
-                ignoreCase: true,
-                height: 400,
-                rowList: [10, 20, 30, 40],
-                page: 1,
-                pager: '#jqGridPager',
-                defaults: {
-                    recordtext: "View {0} - {1} of {2}",
-                    emptyrecords: "No records to view",
-                    loadtext: "Loading...",
-                    pgtext: "Page {0} of {1}"
-                }
-            });
-            jQuery("#jqGrid").jqGrid('navGrid', '#jqGridPager', { edit: false, add: false, del: false });
-        });
+        let content = $('#content');
+        let children = content.children();
+        if (children.length === 0) {
+            let el = $('<h5 />')
+                .text("Select option to proceed with administrating!")
+                .css("font-weight", "bold")
+                .css("color", "red")
+                .css("text-align", "center");
+            content.append(el);
+        }
 
-        $(window).on("resize", function () {
-            var $grid = $("#jqGrid"),
-                newWidth = $grid.closest(".ui-jqgrid").parent().width();
-            $grid.jqGrid("setGridWidth", newWidth, true);
-        });        
+        $('.selector').on('click', (event) => {
+            let adv = event.target.id;
+            let url = `/administration/adminpanel/${adv}`;
+            content.load(url);
+        })
     </script>
 }

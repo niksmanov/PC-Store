@@ -1,0 +1,72 @@
+﻿@model DevicesViewModel
+
+<h4 align="center">All computers</h4>
+
+<div class="table-responsive">
+    <table id="computersTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Seller</th>
+                <th>Posted On</th>               
+                <th>Created On</th>
+                <th>Price</th>
+                <th>See Ad</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var computer in Model.Computers)
+            {
+                string deviceType = computer.GetType().Name
+                    .Split(new string[] { "ViewModel" },
+                    StringSplitOptions.RemoveEmptyEntries)[0];
+
+                <tr>
+                    <td>@deviceType</td>
+                    <td>@computer.Seller.Email</td>
+                    <td>@computer.PostedOn</td>
+                    <td>@computer.CreatedOn</td>
+                    <td>@computer.Price €</td>
+
+                    @{
+                        string adLink = $"/device/{deviceType}/{computer.Id}";
+                        string editLink = $"/device/update{deviceType}/{computer.Id}";
+                    }
+
+                    <td>
+                        <a class="btn btn-default" target="_blank" href="@adLink">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                    </td>                    
+
+                    <td>
+                        <a class="btn btn-primary" target="_blank" href="@editLink">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+
+
+                    <td>
+                        @Ajax.ActionLink("X", "Index", "AdminPanel",
+                                        new { type = deviceType, id = computer.Id },
+                                        new AjaxOptions { HttpMethod = "POST" },
+                                        new { @class = "btn btn-danger" })
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#computersTable').DataTable();
+    });
+
+    $(".btn-danger").on('click', (event) => {
+        let el = $(event.target);
+        el.parent().parent().remove();
+    });
+</script>

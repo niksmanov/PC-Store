@@ -62,12 +62,12 @@ namespace PCstore.Web.Controllers
             var computer = this.computersService
                 .GetAll()
                 .ProjectTo<ComputerViewModel>()
-                .SingleOrDefault(x => x.Id == Id);
+                .Single(x => x.Id == Id);
 
             return View(computer);
         }
 
-        // Add Cpmputer \\
+        // Add Computer \\
         [HttpGet]
         [Authorize]
         public ActionResult AddComputer()
@@ -83,7 +83,7 @@ namespace PCstore.Web.Controllers
         {
             var userId = User.Identity.GetUserId();
             var currentUser = this.usersService.GetAll()
-                .SingleOrDefault(x => x.Id == userId);
+                           .Single(x => x.Id == userId);
 
             model.CreatedOn = DateTime.Now;
             model.Seller = currentUser;
@@ -149,11 +149,12 @@ namespace PCstore.Web.Controllers
             var laptop = this.laptopsService
                  .GetAll()
                  .ProjectTo<LaptopViewModel>()
-                 .SingleOrDefault(x => x.Id == Id);
+                 .Single(x => x.Id == Id);
 
             return View(laptop);
         }
 
+        // Add Laptop \\
         [HttpGet]
         [Authorize]
         public ActionResult AddLaptop()
@@ -169,7 +170,7 @@ namespace PCstore.Web.Controllers
         {
             var userId = User.Identity.GetUserId();
             var currentUser = this.usersService.GetAll()
-                .SingleOrDefault(x => x.Id == userId);
+                           .Single(x => x.Id == userId);
 
             model.CreatedOn = DateTime.Now;
             model.Seller = currentUser;
@@ -234,11 +235,12 @@ namespace PCstore.Web.Controllers
             var display = this.displaysService
                    .GetAll()
                    .ProjectTo<DisplayViewModel>()
-                   .SingleOrDefault(x => x.Id == Id);
+                   .Single(x => x.Id == Id);
 
             return View(display);
         }
 
+        // Add Display \\
         [HttpGet]
         [Authorize]
         public ActionResult AddDisplay()
@@ -254,7 +256,7 @@ namespace PCstore.Web.Controllers
         {
             var userId = User.Identity.GetUserId();
             var currentUser = this.usersService.GetAll()
-                .SingleOrDefault(x => x.Id == userId);
+                           .Single(x => x.Id == userId);
 
             model.CreatedOn = DateTime.Now;
             model.Seller = currentUser;

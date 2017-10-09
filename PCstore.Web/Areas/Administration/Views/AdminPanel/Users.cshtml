@@ -1,0 +1,69 @@
+﻿@model ICollection<UserViewModel>
+
+<h3 class="centerText">
+    <span>All users</span>
+    <button id="refreshButton" class='btn btn-default pull-right'>Refresh</button>
+</h3>
+
+<hr />
+
+<div class="table-responsive">
+    <table id="usersTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Email</th>
+                <th>Modified On</th>
+                <th>Created On</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var user in Model)
+            {
+                string type = user.GetType().Name
+                    .Split(new string[] { "ViewModel" },
+                    StringSplitOptions.RemoveEmptyEntries)[0];
+
+                <tr>
+                    <td>@user.Role</td>
+                    <td>@user.Email</td>
+                    <td>@Html.DisplayFor(x => user.ModifiedOn)</td>
+                    <td>@Html.DisplayFor(x => user.CreatedOn)</td>
+
+                    <td>
+                        <a class="btn btn-primary" target="_blank"
+                           href="@Url.Action($"Update{type}", "AdminPanel", new { id = user.Id }, null)">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+
+
+                    <td>
+                        @Ajax.ActionLink("X", "Index", "AdminPanel",
+                                        new { type = type, id = user.Id },
+                                        new AjaxOptions { HttpMethod = "POST" },
+                                        new { @class = "btn btn-danger" })
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#usersTable').DataTable();
+    });
+
+    $(".btn-danger").on('click', (event) => {
+        let el = $(event.target);
+        el.parent().parent().remove();
+    });
+
+    $('#refreshButton').on('click', () => {
+        let url = '/administration/adminpanel/users';
+        content.load(url);
+    })
+</script>

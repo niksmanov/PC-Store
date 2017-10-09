@@ -7,5 +7,6 @@ namespace PCstore.Services.Contracts
     {
         IQueryable<User> GetAll();
         void Delete(User user);
+        void Update(User user);
     }
 }

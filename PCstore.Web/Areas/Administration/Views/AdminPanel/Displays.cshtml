@@ -1,14 +1,14 @@
 ﻿@model DevicesViewModel
 
 <h3 class="centerText">
-    <span>All computers</span>
+    <span>All displays</span>
     <button id="refreshButton" class='btn btn-default pull-right'>Refresh</button>
 </h3>
 
 <hr />
 
 <div class="table-responsive">
-    <table id="computersTable" class="table table-hover">
+    <table id="displaysTable" class="table table-hover">
         <thead>
             <tr>
                 <th>Type</th>
@@ -23,22 +23,22 @@
         </thead>
 
         <tbody>
-            @foreach (var computer in Model.Computers)
+            @foreach (var display in Model.Displays)
             {
-                string deviceType = computer.GetType().Name
+                string deviceType = display.GetType().Name
                     .Split(new string[] { "ViewModel" },
                     StringSplitOptions.RemoveEmptyEntries)[0];
 
                 <tr>
                     <td>@deviceType</td>
-                    <td>@computer.Seller.Email</td>
-                    <td>@Html.DisplayFor(x => computer.PostedOn)</td>
-                    <td>@Html.DisplayFor(x => computer.CreatedOn)</td>
-                    <td>@computer.Price €</td>
+                    <td>@display.Seller.Email</td>
+                    <td>@Html.DisplayFor(x => display.PostedOn)</td>
+                    <td>@Html.DisplayFor(x => display.CreatedOn)</td>
+                    <td>@display.Price €</td>
 
                     @{
-                        string adLink = $"/device/{deviceType}/{computer.Id}";
-                        string editLink = $"/device/update{deviceType}/{computer.Id}";
+                        string adLink = $"/device/{deviceType}/{display.Id}";
+                        string editLink = $"/device/update{deviceType}/{display.Id}";
                     }
 
                     <td>
@@ -56,7 +56,7 @@
 
                     <td>
                         @Ajax.ActionLink("X", "Index", "AdminPanel",
-                                        new { type = deviceType, id = computer.Id },
+                                        new { type = deviceType, id = display.Id },
                                         new AjaxOptions { HttpMethod = "POST" },
                                         new { @class = "btn btn-danger" })
                 </tr>
@@ -67,7 +67,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#computersTable').DataTable();
+        $('#displaysTable').DataTable();
     });
 
     $(".btn-danger").on('click', (event) => {
@@ -76,7 +76,7 @@
     });
 
     $('#refreshButton').on('click', () => {
-        let url = '/administration/adminpanel/computers';
+        let url = '/administration/adminpanel/displays';
         content.load(url);
     })
 </script>

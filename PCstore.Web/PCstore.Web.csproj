@@ -240,6 +240,7 @@
     <Compile Include="ViewModels\Common\VerifyPhoneNumberViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\Manage\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\administration.css" />
@@ -479,14 +480,15 @@
     <Content Include="Areas\Administration\Views\AdminPanel\AddComputer.cshtml" />
     <Content Include="Areas\Administration\Views\AdminPanel\AddDisplay.cshtml" />
     <Content Include="Areas\Administration\Views\AdminPanel\AddLaptop.cshtml" />
-    <Content Include="Areas\Administration\Views\AdminPanel\UpdateComputer.cshtml" />
-    <Content Include="Areas\Administration\Views\AdminPanel\UpdateDisplay.cshtml" />
-    <Content Include="Areas\Administration\Views\AdminPanel\UpdateLaptop.cshtml" />
     <Content Include="Areas\Administration\Views\AdminPanel\AddUser.cshtml" />
     <Content Include="Areas\Administration\Views\AdminPanel\Computers.cshtml" />
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
+    <Content Include="Areas\Administration\Views\AdminPanel\Laptops.cshtml" />
+    <Content Include="Areas\Administration\Views\AdminPanel\Displays.cshtml" />
+    <Content Include="Areas\Administration\Views\AdminPanel\Users.cshtml" />
+    <Content Include="Areas\Administration\Views\AdminPanel\UpdateUser.cshtml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -640,6 +642,9 @@
     <Content Include="Views\Manage\_DevicesPartial.cshtml" />
     <Content Include="Views\Manage\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Manage\_CreateAdvertisementPartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\DateTime.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

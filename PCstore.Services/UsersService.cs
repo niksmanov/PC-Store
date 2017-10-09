@@ -22,6 +22,12 @@ namespace PCstore.Services
             return this.usersRepo.All;
         }
 
+        public void Update(User user)
+        {
+            this.usersRepo.Update(user);
+            this.unitOfWork.Commit();
+        }
+
         public void Delete(User user)
         {
             this.usersRepo.Delete(user);

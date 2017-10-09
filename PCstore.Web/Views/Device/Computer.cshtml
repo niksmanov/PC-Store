@@ -1,6 +1,6 @@
 ﻿@model ComputerViewModel
 
-<h3 align="center">@Model.Seller.Email.Split('@')[0]'s advertisement</h3>
+<h3 align="center">@Html.EditorFor(x => Model.Seller.Email) advertisement</h3>
 
 <div class="container">
     <div class="row">
@@ -28,7 +28,7 @@
             <p><span class="glyphicon glyphicon-hd-video"></span> GPU Memory: @Model.GpuMemory GB</p>
             <p><span class="glyphicon glyphicon-eye-open"></span> Optical Device: @Model.OpticalDevice</p>
             <p><span class="glyphicon glyphicon glyphicon-th"></span> Operating System: @Model.OperatingSystem</p>
-            <p><span class="glyphicon glyphicon-calendar"></span> Posted On: @Model.PostedOn</p>
+            <p><span class="glyphicon glyphicon-calendar"></span> Posted On: @Html.DisplayFor(x => x.PostedOn)</p>
             <p><span class="glyphicon glyphicon-euro"></span> Price: @Model.Price €</p>
             <p><span class="glyphicon glyphicon-list-alt"></span> Description: @Model.Description</p>
         </div>

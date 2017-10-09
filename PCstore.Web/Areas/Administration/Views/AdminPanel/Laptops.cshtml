@@ -1,14 +1,14 @@
 ﻿@model DevicesViewModel
 
 <h3 class="centerText">
-    <span>All computers</span>
+    <span>All laptops</span>
     <button id="refreshButton" class='btn btn-default pull-right'>Refresh</button>
 </h3>
 
 <hr />
 
 <div class="table-responsive">
-    <table id="computersTable" class="table table-hover">
+    <table id="laptopsTable" class="table table-hover">
         <thead>
             <tr>
                 <th>Type</th>
@@ -21,24 +21,24 @@
                 <th>Delete</th>
             </tr>
         </thead>
-
+        
         <tbody>
-            @foreach (var computer in Model.Computers)
+            @foreach (var laptop in Model.Laptops)
             {
-                string deviceType = computer.GetType().Name
+                string deviceType = laptop.GetType().Name
                     .Split(new string[] { "ViewModel" },
                     StringSplitOptions.RemoveEmptyEntries)[0];
 
                 <tr>
                     <td>@deviceType</td>
-                    <td>@computer.Seller.Email</td>
-                    <td>@Html.DisplayFor(x => computer.PostedOn)</td>
-                    <td>@Html.DisplayFor(x => computer.CreatedOn)</td>
-                    <td>@computer.Price €</td>
+                    <td>@laptop.Seller.Email</td>
+                    <td>@Html.DisplayFor(x => laptop.PostedOn)</td>
+                    <td>@Html.DisplayFor(x => laptop.CreatedOn)</td>
+                    <td>@laptop.Price €</td>
 
                     @{
-                        string adLink = $"/device/{deviceType}/{computer.Id}";
-                        string editLink = $"/device/update{deviceType}/{computer.Id}";
+                        string adLink = $"/device/{deviceType}/{laptop.Id}";
+                        string editLink = $"/device/update{deviceType}/{laptop.Id}";
                     }
 
                     <td>
@@ -56,7 +56,7 @@
 
                     <td>
                         @Ajax.ActionLink("X", "Index", "AdminPanel",
-                                        new { type = deviceType, id = computer.Id },
+                                        new { type = deviceType, id = laptop.Id },
                                         new AjaxOptions { HttpMethod = "POST" },
                                         new { @class = "btn btn-danger" })
                 </tr>
@@ -67,7 +67,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#computersTable').DataTable();
+        $('#laptopsTable').DataTable();
     });
 
     $(".btn-danger").on('click', (event) => {
@@ -76,7 +76,7 @@
     });
 
     $('#refreshButton').on('click', () => {
-        let url = '/administration/adminpanel/computers';
+        let url = '/administration/adminpanel/laptops';
         content.load(url);
     })
 </script>

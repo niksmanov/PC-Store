@@ -1,6 +1,6 @@
 ﻿@model DisplayViewModel
 
-<h3 align="center">@Model.Seller.Email.Split('@')[0]'s advertisement</h3>
+<h3 align="center">@Html.EditorFor(x => Model.Seller.Email) advertisement</h3>
 
 <div class="container">
     <div class="row">
@@ -23,7 +23,7 @@
             <p><span class="glyphicon glyphicon-adjust"></span> Colors: @Model.Colors</p>
         </div>
         <div class="col-md-5">
-            <p><span class="glyphicon glyphicon-calendar"></span> Posted On: @Model.PostedOn</p>
+            <p><span class="glyphicon glyphicon-calendar"></span> Posted On: @Html.DisplayFor(x => x.PostedOn)</p>
             <p><span class="glyphicon glyphicon-euro"></span> Price: @Model.Price €</p>
             <p><span class="glyphicon glyphicon-list-alt"></span> Description: @Model.Description</p>
         </div>

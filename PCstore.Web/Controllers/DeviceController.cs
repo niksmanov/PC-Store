@@ -69,7 +69,7 @@ namespace PCstore.Web.Controllers
 
         // Add Computer \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult AddComputer()
         {
             ViewData["Title"] = "Create Computer Advertisement";
@@ -77,7 +77,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult AddComputer(Computer model)
         {
@@ -95,7 +95,7 @@ namespace PCstore.Web.Controllers
 
         // Update Computer \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult UpdateComputer(Guid id)
         {
             ViewData["Title"] = "Update Computer Advertisement";
@@ -109,7 +109,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateComputer(Computer model)
         {
@@ -156,7 +156,7 @@ namespace PCstore.Web.Controllers
 
         // Add Laptop \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult AddLaptop()
         {
             ViewData["Title"] = "Create Laptop Advertisement";
@@ -164,7 +164,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult AddLaptop(Laptop model)
         {
@@ -181,7 +181,7 @@ namespace PCstore.Web.Controllers
 
         // Update Laptop \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult UpdateLaptop(Guid id)
         {
             ViewData["Title"] = "Update Laptop Advertisement";
@@ -195,7 +195,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateLaptop(Laptop model)
         {
@@ -242,7 +242,7 @@ namespace PCstore.Web.Controllers
 
         // Add Display \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult AddDisplay()
         {
             ViewData["Title"] = "Create Display Advertisement";
@@ -250,7 +250,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult AddDisplay(Display model)
         {
@@ -267,7 +267,7 @@ namespace PCstore.Web.Controllers
 
         // Update Display \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult UpdateDisplay(Guid id)
         {
             ViewData["Title"] = "Update Display Advertisement";
@@ -281,7 +281,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateDisplay(Display model)
         {

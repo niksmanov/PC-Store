@@ -24,7 +24,7 @@
                 <div class="col-md-3">
                     <p><strong>Colors: </strong>@display.Colors</p>
                     <p><strong>Price: </strong>@display.Price €</p>
-                    <p><strong>Posted On: </strong>@display.PostedOn.ToShortDateString()</p>
+                    <p><strong>Posted On: </strong>@Html.DisplayFor(x => display.PostedOn)</p>
                 </div>
             </a>
         </div>

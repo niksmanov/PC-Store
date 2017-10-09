@@ -30,7 +30,7 @@
                     <p><strong>GPU Memory: </strong>@computer.GpuMemory GB</p>
                     <p><strong>Price: </strong>@computer.Price €</p>
                     <p>
-                        <strong>Posted On: </strong>@computer.PostedOn.ToShortDateString()
+                        <strong>Posted On: </strong>@Html.DisplayFor(x => computer.PostedOn)
                     </p>
                 </div>
             </a>

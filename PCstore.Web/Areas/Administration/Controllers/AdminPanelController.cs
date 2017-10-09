@@ -2,12 +2,13 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using PagedList;
 using PCstore.Data.Model;
 using PCstore.Services.Contracts;
 using PCstore.Web.Models;
 using PCstore.Web.ViewModels.Device;
+using PCstore.Web.ViewModels.Manage;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -19,6 +20,7 @@ namespace PCstore.Web.Areas.Administration.Controllers
     public class AdminPanelController : Controller
     {
         private ApplicationUserManager _userManager;
+
         private readonly IMapper mapper;
         private readonly IUsersService usersService;
         private readonly IComputersService computersService;
@@ -53,12 +55,28 @@ namespace PCstore.Web.Areas.Administration.Controllers
             }
         }
 
+
         [HttpGet]
         public ActionResult Index()
         {
             ViewData["Title"] = "Admin Panel";
-
             return View();
+        }
+
+
+        [HttpDelete]
+        public ActionResult ClearCache()
+        {
+            IDictionaryEnumerator enumerator = HttpContext.Cache.GetEnumerator();
+
+            while (enumerator.MoveNext())
+            {
+                HttpContext.Cache.Remove((string)enumerator.Key);
+            }
+
+            //HttpRuntime.UnloadAppDomain();
+
+            return Json(null);
         }
 
 
@@ -80,31 +98,106 @@ namespace PCstore.Web.Areas.Administration.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now
                 };
 
-                await UserManager.CreateAsync(user, model.Password);
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    this.UserManager.AddToRole(user.Id, "User");
+                }
             }
             return RedirectToAction("Index", "AdminPanel");
         }
 
-        // Edit User \\
-        [HttpPost]
-        public ActionResult EditUser()
+        [HttpGet]
+        public ActionResult Users()
         {
-            return PartialView();
+            ViewData["Title"] = "Users";
+
+
+            var users = this.usersService
+                .GetAll()
+                .OrderByDescending(x => x.ModifiedOn)
+                .ProjectTo<UserViewModel>()
+                .ToList();
+
+
+            users = users.Select(x =>
+            {
+                x.Role = this.UserManager
+                .IsInRole(x.Id, "Admin") ? "Admin" : "User";
+                return x;
+            }).ToList();
+
+
+            return PartialView(users);
         }
 
-        // Delete User \\
-        [HttpPost]
-        public ActionResult DeleteUser(string id)
+        // Update User \\
+        [HttpGet]
+        public ActionResult UpdateUser(string id)
         {
-            var user = this.usersService.GetAll().Single(x => x.Id == id);
-            this.usersService.Delete(user);
+            ViewData["Title"] = "Update user profile";
 
+            var user = this.usersService
+                .GetAll()
+                .ProjectTo<UserViewModel>()
+                .Single(x => x.Id == id);
+
+            return View(user);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateUser(UserViewModel viewModel)
+        {
+            var role = viewModel.Role;
+            var user = this.mapper.Map<User>(viewModel);
+
+            user.UserName = user.Email;
+            user.CreatedOn = user.CreatedOn;
+            user.PasswordHash = user.PasswordHash;
+            user.SecurityStamp = user.SecurityStamp;
+
+            if (role == "Admin")
+            {
+                this.UserManager.AddToRole(user.Id, "Admin");
+                this.UserManager.RemoveFromRole(user.Id, "User");
+            }
+            else if (role == "User")
+            {
+                this.UserManager.AddToRole(user.Id, "User");
+                this.UserManager.RemoveFromRole(user.Id, "Admin");
+            }
+
+            this.usersService.Update(user);
             return RedirectToAction("Index", "AdminPanel");
         }
 
+        // Delete Records \\
+        [HttpPost]
+        public ActionResult Index(string type, Guid id)
+        {
+            switch (type)
+            {
+                case "Computer":
+                    var computer = this.computersService.GetAll().Single(x => x.Id == id);
+                    this.computersService.Delete(computer); break;
+                case "Laptop":
+                    var laptop = this.laptopsService.GetAll().Single(x => x.Id == id);
+                    this.laptopsService.Delete(laptop); break;
+                case "Display":
+                    var display = this.displaysService.GetAll().Single(x => x.Id == id);
+                    this.displaysService.Delete(display); break;
+                case "User":
+                    var user = this.usersService.GetAll().Single(x => x.Id == id.ToString());
+                    this.usersService.Delete(user); break;
+            }
+            return Json(null);
+        }
 
 
         // COMPUTERS \\
@@ -126,7 +219,7 @@ namespace PCstore.Web.Areas.Administration.Controllers
 
             return PartialView(viewModel);
         }
-        
+
 
         // Add Computer \\
         [HttpGet]
@@ -154,17 +247,6 @@ namespace PCstore.Web.Areas.Administration.Controllers
         }
 
 
-        // Delete Computer \\
-        [HttpPost]
-        public ActionResult Index(Guid id)
-        {
-            var computer = this.computersService.GetAll().Single(x => x.Id == id);
-            this.computersService.Delete(computer);
-            return Json(null);
-        }
-        
-
-
         // LAPTOPS \\
         [HttpGet]
         public ActionResult Laptops()
@@ -185,6 +267,7 @@ namespace PCstore.Web.Areas.Administration.Controllers
             return PartialView(viewModel);
         }
 
+        // Add Laptop \\
         [HttpGet]
         public ActionResult AddLaptop()
         {
@@ -205,8 +288,9 @@ namespace PCstore.Web.Areas.Administration.Controllers
             this.laptopsService.Add(model);
 
             return RedirectToAction("Index", "AdminPanel");
-        }
 
+
+        }
 
 
         // DISPLAYS \\

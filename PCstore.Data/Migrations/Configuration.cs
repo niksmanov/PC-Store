@@ -30,12 +30,16 @@ namespace PCstore.Data.Migrations
         {
             if (!context.Roles.Any())
             {
-                var roleName = "Admin";
+                var adminRole = "Admin";
+                var userRole = "User";
 
                 var roleStore = new RoleStore<IdentityRole>(context);
                 var roleManager = new RoleManager<IdentityRole>(roleStore);
-                var role = new IdentityRole { Name = roleName };
-                roleManager.Create(role);
+                var firstRole = new IdentityRole { Name = adminRole };
+                var secondRole = new IdentityRole { Name = userRole };
+
+                roleManager.Create(firstRole);
+                roleManager.Create(secondRole);
 
                 var userStore = new UserStore<User>(context);
                 var userManager = new UserManager<User>(userStore);
@@ -44,11 +48,12 @@ namespace PCstore.Data.Migrations
                     UserName = AdministratorUserName,
                     Email = AdministratorUserName,
                     EmailConfirmed = true,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now
                 };
 
                 userManager.Create(user, AdministratorPassword);
-                userManager.AddToRole(user.Id, roleName);
+                userManager.AddToRole(user.Id, adminRole);
             }
         }
 

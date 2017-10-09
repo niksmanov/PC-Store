@@ -1,0 +1,24 @@
+codecov:
+  branch: master
+   notify:
+    require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: 70...100
+
+  status:
+    project: yes
+    patch: yes
+    changes: no
+
+comment:
+  layout: "header, diff"
+  behavior: default  
+  require_changes: no
+  
+codecov:
+  max_report_age: off
+  
+cat codecov.yml | curl --data-binary @- https://codecov.io/validate

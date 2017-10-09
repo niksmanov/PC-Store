@@ -1,5 +1,16 @@
 version: 1.0.{build}
+branches:
+  only:
+  - master
 before_build:
 - cmd: nuget restore
 build:
+  project: PCstore.sln
   verbosity: minimal
+before_test:
+- ps: packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -returntargetcode -filter:"+[*]* -[*.UnitTests]* -[PCstore.Data]Migrations* -[PCstore.Web]Startup* -[PCstore.Web]Infrastructure* -[PCstore.Web]App_Start* -[PCstore.Web]*Manager -[PCstore.Web]EmailService -[PCstore.Web]SmsService -[PCstore.Web]*Config" -register:user "-target:coverageAppVeyor.bat" -output:"_CodeCoverageResult.xml"
+after_test:
+- ps: >-
+    choco install codecov
+
+    codecov -f "_CodeCoverageResult.xml" -t def9ff62-4e61-457f-b841-df065ecc3d75

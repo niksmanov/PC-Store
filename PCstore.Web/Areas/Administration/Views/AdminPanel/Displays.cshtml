@@ -1,0 +1,82 @@
+﻿@model DevicesViewModel
+
+<h3 class="centerText">
+    <span>All displays</span>
+    <button id="refreshButton" class='btn btn-default pull-right'>Refresh</button>
+</h3>
+
+<hr />
+
+<div class="table-responsive">
+    <table id="displaysTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Seller</th>
+                <th>Posted On</th>
+                <th>Created On</th>
+                <th>Price</th>
+                <th>See Ad</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var display in Model.Displays)
+            {
+                string deviceType = display.GetType().Name
+                    .Split(new string[] { "ViewModel" },
+                    StringSplitOptions.RemoveEmptyEntries)[0];
+
+                <tr>
+                    <td>@deviceType</td>
+                    <td>@display.Seller.Email</td>
+                    <td>@Html.DisplayFor(x => display.PostedOn)</td>
+                    <td>@Html.DisplayFor(x => display.CreatedOn)</td>
+                    <td>@display.Price €</td>
+
+                    @{
+                        string adLink = $"/device/{deviceType}/{display.Id}";
+                        string editLink = $"/device/update{deviceType}/{display.Id}";
+                    }
+
+                    <td>
+                        <a class="btn btn-default" target="_blank" href="@adLink">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </a>
+                    </td>
+
+                    <td>
+                        <a class="btn btn-primary" target="_blank" href="@editLink">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+
+
+                    <td>
+                        @Ajax.ActionLink("X", "Index", "AdminPanel",
+                                        new { type = deviceType, id = display.Id },
+                                        new AjaxOptions { HttpMethod = "POST" },
+                                        new { @class = "btn btn-danger" })
+                </tr>
+                        }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#displaysTable').DataTable();
+    });
+
+    $(".btn-danger").on('click', (event) => {
+        let el = $(event.target);
+        el.parent().parent().remove();
+    });
+
+    $('#refreshButton').on('click', () => {
+        let url = '/administration/adminpanel/displays';
+        content.load(url);
+    })
+</script>

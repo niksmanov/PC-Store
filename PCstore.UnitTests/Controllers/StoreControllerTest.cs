@@ -1,14 +1,14 @@
 ﻿using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PCstore.Web.Controllers;
+using NUnit.Framework;
 
 namespace PCstore.UnitTests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class StoreControllerTest
     {
-        [TestMethod]
-        public void Index()
+        [Test]
+        public void ShouldReturnsTrue_WhenIndexViewResult_IsValid()
         {
             // Arrange
             StoreController controller = new StoreController();
@@ -20,8 +20,8 @@ namespace PCstore.UnitTests.Controllers
             Assert.AreEqual("PC store - Home", result.ViewData["Title"]);
         }
 
-        [TestMethod]
-        public void About()
+        [Test]
+        public void ShouldReturnsTrue_WhenAboutViewResult_IsValid()
         {
             // Arrange
             StoreController controller = new StoreController();
@@ -33,8 +33,8 @@ namespace PCstore.UnitTests.Controllers
             Assert.AreEqual("About", result.ViewData["Title"]);
         }
 
-        [TestMethod]
-        public void Contact()
+        [Test]
+        public void ShouldReturnsTrue_WhenContactViewResult_IsValid()
         {
             // Arrange
             StoreController controller = new StoreController();

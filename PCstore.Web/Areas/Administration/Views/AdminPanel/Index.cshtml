@@ -1,0 +1,61 @@
+﻿@Scripts.Render("~/bundles/datatables")
+@Styles.Render("~/Content/datatables")
+@Styles.Render("~/Content/administration")
+
+<div class="btn-group">
+    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        Adding
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li><a class="selector" id="adduser">Add User</a></li>
+        <li><a class="selector" id="addcomputer">Add Computer</a></li>
+        <li><a class="selector" id="addlaptop">Add Laptop</a></li>
+        <li><a class="selector" id="adddisplay">Add Display</a></li>
+    </ul>
+</div>
+
+<div class="btn-group">
+    <a class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+        Editing
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li><a class="selector" id="users">Edit Users</a></li>
+        <li><a class="selector" id="computers">Edit Computers</a></li>
+        <li><a class="selector" id="laptops">Edit Laptops</a></li>
+        <li><a class="selector" id="displays">Edit Displays</a></li>
+    </ul>
+</div>
+
+<div class="btn-group pull-right">
+    @Ajax.ActionLink("Clear Cache", "ClearCache", "AdminPanel",
+    new AjaxOptions { HttpMethod = "DELETE" }, new { @class = "btn btn-warning" })
+</div>
+
+
+<hr />
+<div id="content">
+</div>
+
+
+@section scripts{
+    <script>
+        let content = $('#content');
+        let children = content.children();
+        if (children.length === 0) {
+            let el = $('<h5 />')
+                .text("Select option to proceed with administrating!")
+                .css("font-weight", "bold")
+                .css("color", "red")
+                .css("text-align", "center");
+            content.append(el);
+        }
+
+        $('.selector').on('click', (event) => {
+            let adv = event.target.id;
+            let url = `/administration/adminpanel/${adv}`;
+            content.load(url);
+        })
+    </script>
+}

@@ -1,0 +1,12 @@
+﻿.selector {
+    cursor: pointer;
+}
+
+td, th {
+    text-align: center;
+}
+
+.centerText {
+    width:100%;
+    text-align:center;
+}

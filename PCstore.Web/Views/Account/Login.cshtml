@@ -5,8 +5,6 @@
 }
 
 <h3 align="center">@ViewData["Title"]</h3>
-@*<div class="row">
-    <div class="col-md-8">*@
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
@@ -46,21 +44,10 @@
                     <div class="col-md-offset-2 col-md-10">
                         @Html.ActionLink("Register as a new user", "Register")
                     </div>
-                </div>                
-
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
+                </div>                 
             }
         </section>
-    @*</div>
-        <div class="col-md-4">
-            <section id="socialLoginForm">
-                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-            </section>
-        </div>
-    </div>*@
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

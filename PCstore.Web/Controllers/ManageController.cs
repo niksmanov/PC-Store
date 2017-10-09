@@ -17,7 +17,7 @@ using PagedList;
 
 namespace PCstore.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User, Admin")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

@@ -62,14 +62,14 @@ namespace PCstore.Web.Controllers
             var computer = this.computersService
                 .GetAll()
                 .ProjectTo<ComputerViewModel>()
-                .SingleOrDefault(x => x.Id == Id);
+                .Single(x => x.Id == Id);
 
             return View(computer);
         }
 
-        // Add Cpmputer \\
+        // Add Computer \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult AddComputer()
         {
             ViewData["Title"] = "Create Computer Advertisement";
@@ -77,13 +77,13 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult AddComputer(Computer model)
         {
             var userId = User.Identity.GetUserId();
             var currentUser = this.usersService.GetAll()
-                .SingleOrDefault(x => x.Id == userId);
+                           .Single(x => x.Id == userId);
 
             model.CreatedOn = DateTime.Now;
             model.Seller = currentUser;
@@ -95,7 +95,7 @@ namespace PCstore.Web.Controllers
 
         // Update Computer \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult UpdateComputer(Guid id)
         {
             ViewData["Title"] = "Update Computer Advertisement";
@@ -109,7 +109,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateComputer(Computer model)
         {
@@ -149,13 +149,14 @@ namespace PCstore.Web.Controllers
             var laptop = this.laptopsService
                  .GetAll()
                  .ProjectTo<LaptopViewModel>()
-                 .SingleOrDefault(x => x.Id == Id);
+                 .Single(x => x.Id == Id);
 
             return View(laptop);
         }
 
+        // Add Laptop \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult AddLaptop()
         {
             ViewData["Title"] = "Create Laptop Advertisement";
@@ -163,13 +164,13 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult AddLaptop(Laptop model)
         {
             var userId = User.Identity.GetUserId();
             var currentUser = this.usersService.GetAll()
-                .SingleOrDefault(x => x.Id == userId);
+                           .Single(x => x.Id == userId);
 
             model.CreatedOn = DateTime.Now;
             model.Seller = currentUser;
@@ -180,7 +181,7 @@ namespace PCstore.Web.Controllers
 
         // Update Laptop \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult UpdateLaptop(Guid id)
         {
             ViewData["Title"] = "Update Laptop Advertisement";
@@ -194,7 +195,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateLaptop(Laptop model)
         {
@@ -234,13 +235,14 @@ namespace PCstore.Web.Controllers
             var display = this.displaysService
                    .GetAll()
                    .ProjectTo<DisplayViewModel>()
-                   .SingleOrDefault(x => x.Id == Id);
+                   .Single(x => x.Id == Id);
 
             return View(display);
         }
 
+        // Add Display \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult AddDisplay()
         {
             ViewData["Title"] = "Create Display Advertisement";
@@ -248,13 +250,13 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult AddDisplay(Display model)
         {
             var userId = User.Identity.GetUserId();
             var currentUser = this.usersService.GetAll()
-                .SingleOrDefault(x => x.Id == userId);
+                           .Single(x => x.Id == userId);
 
             model.CreatedOn = DateTime.Now;
             model.Seller = currentUser;
@@ -265,7 +267,7 @@ namespace PCstore.Web.Controllers
 
         // Update Display \\
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public ActionResult UpdateDisplay(Guid id)
         {
             ViewData["Title"] = "Update Display Advertisement";
@@ -279,7 +281,7 @@ namespace PCstore.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateDisplay(Display model)
         {

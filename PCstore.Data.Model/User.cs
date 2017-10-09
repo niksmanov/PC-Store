@@ -19,7 +19,6 @@ namespace PCstore.Data.Model
             this.devices = new HashSet<IDevice>();
         }
 
-
         [Index]
         public bool IsDeleted { get; set; }
 

@@ -11,7 +11,7 @@ using PCstore.Web.Models;
 
 namespace PCstore.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User, Admin")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -71,6 +71,23 @@ namespace PCstore.Web.Controllers
             {
                 return View(model);
             }
+
+
+            try
+            {
+                var user = UserManager.Users.Single(x => x.Email == model.Email);
+                if (user.DeletedOn != null)
+                {
+                    ModelState.AddModelError("", "Your account is blocked!");
+                    return View(model);
+                }
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View(model);
+            }
+
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -150,10 +167,11 @@ namespace PCstore.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                var user = new User { UserName = model.Email, Email = model.Email, CreatedOn = DateTime.Now };
+                var user = new User { UserName = model.Email, Email = model.Email, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    this.UserManager.AddToRole(user.Id, "User");
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

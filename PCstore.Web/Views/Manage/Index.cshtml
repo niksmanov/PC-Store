@@ -7,126 +7,38 @@
 <h3 align="center">@ViewData["Title"]</h3>
 
 @Styles.Render("~/Content/advertisement")
+@Styles.Render("~/Content/manage")
+
 
 <div class="container">
 
     <div class="row">
         <div class="col-md-6">
-            <h4 align="center">Change your account settings</h4>
-
-            <p class="text-success">@ViewBag.StatusMessage</p>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>Password:</dt>
-                <dd>
-                    @if (Model.Item1.HasPassword)
-                    {
-                        <input type="button" value="Change your password" class="btn btn-warning"
-                               onclick="window.location.href='@Url.Action("ChangePassword", "Manage")'" />
-                    }
-                    else
-                    {
-                        <input type="button" value="Create" class="btn btn-warning"
-                               onclick="window.location.href='@Url.Action("SetPassword", "Manage")'" />
-                    }
-                </dd>
-            </dl>
+            @Html.Partial("_ChangePasswordPartial", Model.Item1)
         </div>
         <div class="col-md-6">
-            <h4 align="center">Create advertisement</h4>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>Advertisement for:</dt>
-                <dd>
-                    <input type="button" value="Computer" class="btn btn-primary"
-                           onclick="window.location.href='@Url.Action("AddComputer", "Device")'" />
-                    <input type="button" value="Laptop" class="btn btn-success"
-                           onclick="window.location.href='@Url.Action("AddLaptop", "Device")'" />
-                    <input type="button" value="Display" class="btn btn-info"
-                           onclick="window.location.href='@Url.Action("AddDisplay", "Device")'" />
-                </dd>
-            </dl>
+            @Html.Partial("_CreateAdvertisementPartial")
         </div>
     </div>
 
     <hr />
 
-    <h4 align="center">All your advertisements</h4>
+    @Html.Partial("_DevicesPartial", Model.Item2)
 
-    @if (Model.Item2.Count == 0)
-    {
-        <h5 align="center" style="color:red">
-            <strong>
-                You don't have advertisements!
-            </strong>
-        </h5>
-    }
-    else
-    {
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Device Type</th>
-                        <th>Posted On</th>
-                        <th>Created On</th>
-                        <th>Price</th>
-                        <th>See Ad</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var device in Model.Item2)
-                    {
-                        string deviceType = device.GetType().Name
-                            .Split(new string[] { "ViewModel" },
-                            StringSplitOptions.RemoveEmptyEntries)[0];
-
-                        <tr>
-                            <td>@deviceType</td>
-                            <td>@device.PostedOn</td>
-                            <td>@device.CreatedOn</td>
-                            <td>@device.Price €</td>
-                            <td>
-                                <a class="btn btn-default" target="_blank"
-                                   href="@Url.Action(deviceType, "Device", new { device.Id }, null)">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </a>
-                            </td>
-
-
-                            <td>
-                                <a class="btn btn-primary"
-                                   href="@Url.Action($"Update{deviceType}", "Device", new { id = device.Id }, null)">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                            </td>
-
-
-                            <td>
-                                @Ajax.ActionLink("X", "Index", "Manage",
-                                    new { type = deviceType, id = device.Id },
-                                    new AjaxOptions { HttpMethod = "POST" },
-                                    new { @class = "btn btn-danger" })
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
 </div>
 
-<div align="center">
-    @Html.PagedListPager(Model.Item2, page => Url.Action("Index", new { page }))
-</div>
+@if (Model.Item2.Count > 0)
+{
+    <div align="center">
+        @Html.PagedListPager(Model.Item2, page => Url.Action("Index", new { page }))
+    </div>
 
-@section scripts {
-    <script>
-        $(".btn-danger").on('click', (event) => {
-            let el = $(event.target);
-            el.parent().parent().remove();
-        });
-    </script>
+    @section scripts {
+        <script>            
+            $(".btn-danger").on('click', (event) => {
+                let el = $(event.target);
+                el.parent().parent().remove();
+            });
+        </script>
+    }
 }

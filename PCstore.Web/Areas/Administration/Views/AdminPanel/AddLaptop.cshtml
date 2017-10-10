@@ -1,44 +1,46 @@
 ﻿@model LaptopViewModel
 @Scripts.Render("~/bundles/jqueryval")
+@Styles.Render("~/Content/nooverflow")
 
 <h3 align="center">@ViewData["Title"]</h3>
 
-<div class="row">
+<div class="container">
     @using (Html.BeginForm("AddLaptop", "AdminPanel", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
         <hr />
+
         <div class="col-md-6">
             <div class="form-group">
                 @{
                     var displays = new List<double>() { 12, 13.3, 14, 15.4, 15.6, 17, 19 };
                 }
-                @Html.LabelFor(x => x.DisplaySize, "Display Size", new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                @Html.LabelFor(x => x.DisplaySize, "Display Size (inch)", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
                     @Html.DropDownListFor(x => x.DisplaySize, new SelectList(displays), new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.DisplaySize, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(x => x.DisplayResolution, "Display Resolution", new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                @Html.LabelFor(x => x.DisplayResolution, "Display Resolution", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
                     @Html.TextBoxFor(x => x.DisplayResolution, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.DisplayResolution, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(x => x.CPU, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                @Html.LabelFor(x => x.CPU, "CPU Name", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
                     @Html.TextBoxFor(x => x.CPU, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.CPU, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(x => x.CpuSpeed, "CPU Speed", new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                @Html.LabelFor(x => x.CpuSpeed, "CPU Speed (Ghz)", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
                     @Html.TextBoxFor(x => x.CpuSpeed, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.CpuSpeed, "", new { @class = "text-danger" })
                 </div>
@@ -48,8 +50,8 @@
                 @{
                     var ram = new List<int>() { 4, 8, 16, 32, 64 };
                 }
-                @Html.LabelFor(x => x.RAM, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                @Html.LabelFor(x => x.RAM, "RAM (GB)", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
                     @Html.DropDownListFor(x => x.RAM, new SelectList(ram), new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.RAM, "", new { @class = "text-danger" })
                 </div>
@@ -59,16 +61,16 @@
                 @{
                     var ramTypesList = new List<string>() { "DDR", "DDR2", "DDR3", "DDR4" };
                 }
-                @Html.LabelFor(x => x.RamType, "Ram Type", new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                @Html.LabelFor(x => x.RamType, "Ram Type", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
                     @Html.DropDownListFor(x => x.RamType, new SelectList(ramTypesList), new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.RamType, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(x => x.HDD, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                @Html.LabelFor(x => x.HDD, "HDD (GB)", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
                     @Html.TextBoxFor(x => x.HDD, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.HDD, "", new { @class = "text-danger" })
                 </div>
@@ -76,77 +78,77 @@
         </div>
 
 
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(x => x.GPU, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.GPU, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.GPU, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @{
-                        var gpuMemory = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
-                    }
-                    @Html.LabelFor(x => x.GpuMemory, "GPU Memory", new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(x => x.GpuMemory, new SelectList(gpuMemory), new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.GpuMemory, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @{
-                        var battery = new List<string>() { "48wh", "56wh", "62wh", "65wh", "69wh" };
-                    }
-                    @Html.LabelFor(x => x.Battery, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(x => x.Battery, new SelectList(battery), new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Battery, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(x => x.OpticalDevice, "Optical Device", new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.OpticalDevice, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.OpticalDevice, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(x => x.OperatingSystem, "Operating System", new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.OperatingSystem, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.OperatingSystem, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Price, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(x => x.SellerPhone, "Seller Phone", new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.SellerPhone, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.SellerPhone, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Description, "Description", new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
-                    </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(x => x.GPU, "GPU Name", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.GPU, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.GPU, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group">
+                @{
+                    var gpuMemory = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
+                }
+                @Html.LabelFor(x => x.GpuMemory, "GPU Memory (GB)", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(x => x.GpuMemory, new SelectList(gpuMemory), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.GpuMemory, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @{
+                    var battery = new List<string>() { "48wh", "56wh", "62wh", "65wh", "69wh" };
+                }
+                @Html.LabelFor(x => x.Battery, "Battery (Wh)", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(x => x.Battery, new SelectList(battery), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Battery, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.OpticalDevice, "Optical Device", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.OpticalDevice, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.OpticalDevice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.OperatingSystem, "Operating System", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.OperatingSystem, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.OperatingSystem, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Price, "Price (€)", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.SellerPhone, "Seller Phone", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.SellerPhone, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SellerPhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Description, "Description", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
 
                 <div class="form-group">
                     <div class="col-md-offset-5 col-md-10">

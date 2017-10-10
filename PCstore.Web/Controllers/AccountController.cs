@@ -71,23 +71,13 @@ namespace PCstore.Web.Controllers
             {
                 return View(model);
             }
-
-
-            try
+            
+            var user = UserManager.Users.SingleOrDefault(x => x.Email == model.Email);
+            if (user != null && user.DeletedOn != null)
             {
-                var user = UserManager.Users.Single(x => x.Email == model.Email);
-                if (user.DeletedOn != null)
-                {
-                    ModelState.AddModelError("", "Your account is blocked!");
-                    return View(model);
-                }
-            }
-            catch (Exception)
-            {
-                ModelState.AddModelError("", "Invalid login attempt.");
+                ModelState.AddModelError("", "Your account is blocked!");
                 return View(model);
             }
-
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true

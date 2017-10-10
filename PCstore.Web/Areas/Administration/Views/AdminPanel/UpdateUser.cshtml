@@ -2,7 +2,7 @@
 
 <h3 align="center">@ViewData["Title"]</h3>
 
-<div class="row">
+<div class="container">
     @using (Html.BeginForm("UpdateUser", "AdminPanel", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()

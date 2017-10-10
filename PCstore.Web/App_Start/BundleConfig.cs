@@ -47,6 +47,9 @@ namespace PCstore.Web
 
             bundles.Add(new StyleBundle("~/Content/datatables").Include(
                     "~/Content/DataTables/css/jquery.dataTables.css"));
+
+            bundles.Add(new StyleBundle("~/Content/nooverflow").Include(
+                 "~/Content/noOverflow.css"));
         }
     }
 }

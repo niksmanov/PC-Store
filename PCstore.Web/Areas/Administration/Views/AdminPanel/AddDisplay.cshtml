@@ -1,28 +1,30 @@
 ﻿@model DisplayViewModel
 @Scripts.Render("~/bundles/jqueryval")
+@Styles.Render("~/Content/nooverflow")
 
 <h3 align="center">@ViewData["Title"]</h3>
 
-<div class="row">
+<div class="container">
     @using (Html.BeginForm("AddDisplay", "AdminPanel", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
         <hr />
+
         <div class="col-md-6">
             <div class="form-group">
                 @{
                     var displays = new List<double>() { 12, 13.3, 14, 15.4, 15.6, 17, 19 };
                 }
-                @Html.LabelFor(x => x.Size, "Display Size", new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                @Html.LabelFor(x => x.Size, "Display Size (inch)", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
                     @Html.DropDownListFor(x => x.Size, new SelectList(displays), new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.Size, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(x => x.Resolution, "Display Resolution", new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                @Html.LabelFor(x => x.Resolution, "Display Resolution", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
                     @Html.TextBoxFor(x => x.Resolution, new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.Resolution, "", new { @class = "text-danger" })
                 </div>
@@ -32,50 +34,50 @@
                 @{
                     var types = new List<string>() { "LCD", "TFT", "IPS", "LED" };
                 }
-                @Html.LabelFor(x => x.Type, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                @Html.LabelFor(x => x.Type, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
                     @Html.DropDownListFor(x => x.Type, new SelectList(types), new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.Type, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
 
-            <div class="col-md-6">
-                <div class="form-group">
-                    @{
-                        var colors = new List<double>() { 256000, 1240000, 6340000, 12520000, 16700000 };
-                    }
-                    @Html.LabelFor(x => x.Colors, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(x => x.Colors, new SelectList(colors), new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Colors, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Price, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(x => x.SellerPhone, "Seller Phone", new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.SellerPhone, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.SellerPhone, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(x => x.Description, "Description", new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
-                    </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @{
+                    var colors = new List<double>() { 256000, 1240000, 6340000, 12520000, 16700000 };
+                }
+                @Html.LabelFor(x => x.Colors, new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(x => x.Colors, new SelectList(colors), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Colors, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Price, "Price (€)", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.SellerPhone, "Seller Phone", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.SellerPhone, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SellerPhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Description, "Description", new { @class = "col-md-4 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
 
                 <div class="form-group">
                     <div class="col-md-offset-5 col-md-10">

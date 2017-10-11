@@ -49,7 +49,7 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = loginMethod.GetCustomAttributes(false)
-                .GetValue(3).GetType().Name;
+                 .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
@@ -66,7 +66,7 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = registerMethod.GetCustomAttributes(false)
-                .GetValue(3).GetType().Name;
+                    .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
@@ -97,7 +97,7 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = verifyCodeMethod.GetCustomAttributes(false)
-                .GetValue(1).GetType().Name;
+                  .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("AllowAnonymousAttribute", attributes);
@@ -115,7 +115,7 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = verifyCodeMethod.GetCustomAttributes(false)
-                .GetValue(3).GetType().Name;
+                  .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
@@ -132,7 +132,7 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = confirmEmailMethod.GetCustomAttributes(false)
-                .GetValue(1).GetType().Name;
+                  .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("AllowAnonymousAttribute", attributes);
@@ -162,7 +162,7 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = forgotPasswordMethod.GetCustomAttributes(false)
-                .GetValue(3).GetType().Name;
+                .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
@@ -218,7 +218,7 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = resetPasswordMethod.GetCustomAttributes(false)
-                .GetValue(3).GetType().Name;
+                   .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
@@ -249,7 +249,7 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = externalLoginMethod.GetCustomAttributes(false)
-                .GetValue(2).GetType().Name;
+                 .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
@@ -266,7 +266,7 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = sendCodeMethod.GetCustomAttributes(false)
-                .GetValue(1).GetType().Name;
+                 .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("AllowAnonymousAttribute", attributes);
@@ -283,7 +283,7 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = sendCodeMethod.GetCustomAttributes(false)
-                .GetValue(3).GetType().Name;
+                 .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
@@ -300,24 +300,25 @@ namespace PCstore.UnitTests.Controllers
 
             // Act
             var attributes = externalLoginCallbackMethod.GetCustomAttributes(false)
-                .GetValue(1).GetType().Name;
+                 .Last().GetType().Name;
 
             // Assert
             Assert.AreEqual("AllowAnonymousAttribute", attributes);
         }
 
         [Test]
-        public void ExternalLoginConfirmation_ShouldReturnsTrue_IfHaveAllowAnonymousAttribute()
+        public void ExternalLoginConfirmation_ShouldReturnsTrue_IfHaveAntiForgeryAttrubute()
         {
             // Arrange
             var externalLoginConfirmationMethod = typeof(AccountController)
               .GetMethods()
-              .FirstOrDefault(x => x.Name == "ExternalLoginConfirmation" &&
+              .SingleOrDefault(x => x.Name == "ExternalLoginConfirmation" &&
               x.GetParameters().Count() == 2);
 
             // Act
             var attributes = externalLoginConfirmationMethod.GetCustomAttributes(false)
-                .GetValue(3).GetType().Name;
+                .Last().GetType().Name;
+
 
             // Assert
             Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);

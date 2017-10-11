@@ -303,6 +303,7 @@ namespace PCstore.Web.Controllers
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
+            ViewData["Title"] = "Change Password";
             return View();
         }
 

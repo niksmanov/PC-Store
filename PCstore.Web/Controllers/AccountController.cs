@@ -57,6 +57,7 @@ namespace PCstore.Web.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewData["Title"] = "Log in";
             return View();
         }
 
@@ -103,6 +104,8 @@ namespace PCstore.Web.Controllers
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
             // Require that the user has already logged in via username/password or external login
+            ViewData["Title"] = "Verify";
+
             if (!await SignInManager.HasBeenVerifiedAsync())
             {
                 return View("Error");
@@ -145,6 +148,7 @@ namespace PCstore.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewData["Title"] = "Register";
             return View();
         }
 
@@ -184,6 +188,8 @@ namespace PCstore.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
+            ViewData["Title"] = "Confirm Email";
+
             if (userId == null || code == null)
             {
                 return View("Error");
@@ -197,6 +203,7 @@ namespace PCstore.Web.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
+            ViewData["Title"] = "Forgot your password?";
             return View();
         }
 
@@ -233,6 +240,7 @@ namespace PCstore.Web.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
+            ViewData["Title"] = "Forgot Password Confirmation";
             return View();
         }
 
@@ -241,6 +249,7 @@ namespace PCstore.Web.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
+            ViewData["Title"] = "Reset password";
             return code == null ? View("Error") : View();
         }
 
@@ -275,6 +284,7 @@ namespace PCstore.Web.Controllers
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
+            ViewData["Title"] = "Reset password confirmation";
             return View();
         }
 
@@ -361,6 +371,8 @@ namespace PCstore.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
+            ViewData["Title"] = "Register";
+
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Manage");
@@ -407,6 +419,7 @@ namespace PCstore.Web.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
+            ViewData["Title"] = "Login Failure";
             return View();
         }
 

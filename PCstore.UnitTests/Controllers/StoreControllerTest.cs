@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using PCstore.Web.Controllers;
 using NUnit.Framework;
+using TestStack.FluentMVCTesting;
 
 namespace PCstore.UnitTests.Controllers
 {
@@ -13,11 +14,10 @@ namespace PCstore.UnitTests.Controllers
             // Arrange
             var controller = new StoreController();
 
-            // Act
-            var result = controller.Index() as ViewResult;
-
-            // Assert
-            Assert.AreEqual("PC store - Home", result.ViewData["Title"]);
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.Index())
+                .ShouldRenderView("Index");
         }
 
         [Test]
@@ -26,11 +26,10 @@ namespace PCstore.UnitTests.Controllers
             // Arrange
             var controller = new StoreController();
 
-            // Act
-            var result = controller.About() as ViewResult;
-
-            // Assert
-            Assert.AreEqual("About", result.ViewData["Title"]);
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.About())
+                .ShouldRenderView("About");
         }
 
         [Test]
@@ -42,8 +41,10 @@ namespace PCstore.UnitTests.Controllers
             // Act
             var result = controller.Contact() as ViewResult;
 
-            // Assert
-            Assert.AreEqual("Contact", result.ViewData["Title"]);
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.Contact())
+                .ShouldRenderView("Contact");
         }
     }
 }

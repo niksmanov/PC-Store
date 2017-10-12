@@ -1,9 +1,8 @@
-﻿using Moq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using PCstore.Web.Controllers;
-using PCstore.Web.Models;
 using System.Linq;
 using System.Web.Mvc;
+using TestStack.FluentMVCTesting;
 
 namespace PCstore.UnitTests.Controllers
 {
@@ -17,11 +16,10 @@ namespace PCstore.UnitTests.Controllers
             var returnUrl = "returnUrl";
             var controller = new AccountController();
 
-            // Act
-            var result = controller.Login(returnUrl) as ViewResult;
-
-            // Assert
-            Assert.AreEqual(returnUrl, result.ViewBag.ReturnUrl);
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.Login(returnUrl))
+                .ShouldRenderView("Login");
         }
 
         [Test]
@@ -55,6 +53,19 @@ namespace PCstore.UnitTests.Controllers
             Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
         }
 
+
+        [Test]
+        public void Register_ShouldReturnsTrue_WhenViewResult_IsValid()
+        {
+            // Arrange
+            var controller = new AccountController();
+
+            //Act and Assert
+            controller
+                .WithCallTo(c => c.Register())
+                .ShouldRenderView("Register");
+        }
+
         [Test]
         public void Register_ShouldReturnsTrue_IfHaveAntiForgeryAttrubute()
         {
@@ -72,19 +83,6 @@ namespace PCstore.UnitTests.Controllers
             Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
         }
 
-
-        [Test]
-        public void Register_ShouldReturnsTrue_WhenViewResult_IsValid()
-        {
-            // Arrange
-            var controller = new AccountController();
-
-            // Act
-            var result = controller.Register() as ViewResult;
-
-            // Assert
-            Assert.AreEqual("Register", result.ViewData["Title"]);
-        }
 
         [Test]
         public void VerifyCodeGET_ShouldReturnsTrue_IfHaveAllowAnonymousAttribute()
@@ -144,11 +142,10 @@ namespace PCstore.UnitTests.Controllers
             // Arrange
             var controller = new AccountController();
 
-            // Act
-            var result = controller.ForgotPassword() as ViewResult;
-
-            // Assert
-            Assert.AreEqual("Forgot your password?", result.ViewData["Title"]);
+            //Act and Assert
+            controller
+                .WithCallTo(c => c.ForgotPassword())
+                .ShouldRenderView("ForgotPassword");
         }
 
         [Test]
@@ -174,11 +171,10 @@ namespace PCstore.UnitTests.Controllers
             // Arrange
             var controller = new AccountController();
 
-            // Act
-            var result = controller.ForgotPasswordConfirmation() as ViewResult;
-
-            // Assert
-            Assert.AreEqual("Forgot Password Confirmation", result.ViewData["Title"]);
+            //Act and Assert
+            controller
+                .WithCallTo(c => c.ForgotPasswordConfirmation())
+                .ShouldRenderView("ForgotPasswordConfirmation");
         }
 
         [Test]
@@ -187,11 +183,10 @@ namespace PCstore.UnitTests.Controllers
             // Arrange
             var controller = new AccountController();
 
-            // Act
-            var result = controller.ResetPassword(string.Empty) as ViewResult;
-
-            // Assert
-            Assert.AreEqual("Reset password", result.ViewData["Title"]);
+            //Act and Assert
+            controller
+                .WithCallTo(c => c.ResetPassword(string.Empty))
+                .ShouldRenderView("ResetPassword");
         }
 
         [Test]
@@ -230,11 +225,10 @@ namespace PCstore.UnitTests.Controllers
             // Arrange
             var controller = new AccountController();
 
-            // Act
-            var result = controller.ResetPasswordConfirmation() as ViewResult;
-
-            // Assert
-            Assert.AreEqual("Reset password confirmation", result.ViewData["Title"]);
+            //Act and Assert
+            controller
+                .WithCallTo(c => c.ResetPasswordConfirmation())
+                .ShouldRenderView("ResetPasswordConfirmation");
         }
 
 
@@ -312,7 +306,7 @@ namespace PCstore.UnitTests.Controllers
             // Arrange
             var externalLoginConfirmationMethod = typeof(AccountController)
               .GetMethods()
-              .SingleOrDefault(x => x.Name == "ExternalLoginConfirmation" &&
+              .FirstOrDefault(x => x.Name == "ExternalLoginConfirmation" &&
               x.GetParameters().Count() == 2);
 
             // Act
@@ -330,11 +324,10 @@ namespace PCstore.UnitTests.Controllers
             // Arrange
             var controller = new AccountController();
 
-            // Act
-            var result = controller.ExternalLoginFailure() as ViewResult;
-
-            // Assert
-            Assert.AreEqual("Login Failure", result.ViewData["Title"]);
+            //Act and Assert
+            controller
+                .WithCallTo(c => c.ExternalLoginFailure())
+                .ShouldRenderView("ExternalLoginFailure");
         }
     }
 }

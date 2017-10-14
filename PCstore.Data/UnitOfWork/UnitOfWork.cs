@@ -1,4 +1,6 @@
-﻿namespace PCstore.Data.UnitOfWork
+﻿using Bytes2you.Validation;
+
+namespace PCstore.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -6,6 +8,8 @@
 
         public UnitOfWork(MsSqlDbContext context)
         {
+            Guard.WhenArgument(context, nameof(context)).IsNull().Throw();
+
             this.context = context;
         }
 

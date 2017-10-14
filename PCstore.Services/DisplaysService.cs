@@ -3,6 +3,7 @@ using PCstore.Data.Repositories;
 using PCstore.Data.Model;
 using System.Linq;
 using PCstore.Data.UnitOfWork;
+using Bytes2you.Validation;
 
 namespace PCstore.Services
 {
@@ -13,6 +14,9 @@ namespace PCstore.Services
 
         public DisplaysService(IEfRepository<Display> displaysRepo, IUnitOfWork unitOfWork)
         {
+            Guard.WhenArgument(displaysRepo, nameof(displaysRepo)).IsNull().Throw();
+            Guard.WhenArgument(unitOfWork, nameof(unitOfWork)).IsNull().Throw();
+
             this.displaysRepo = displaysRepo;
             this.unitOfWork = unitOfWork;
         }

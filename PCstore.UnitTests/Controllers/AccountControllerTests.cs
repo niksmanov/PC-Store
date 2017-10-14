@@ -1,9 +1,13 @@
-﻿using Moq;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Moq;
 using NUnit.Framework;
+using PCstore.Data.Model;
 using PCstore.Web.Controllers;
 using PCstore.Web.Models;
-using System.Linq;
-using System.Web.Mvc;
+using PCstore.Web.Providers.Contracts;
+using System;
+using TestStack.FluentMVCTesting;
 
 namespace PCstore.UnitTests.Controllers
 {
@@ -11,330 +15,289 @@ namespace PCstore.UnitTests.Controllers
     public class AccountControllerTests
     {
         [Test]
-        public void Login_ShouldStoreTheReturnUrlInViewBag()
+        public void Controller_ShouldNotThrowArgumentNullException_WhenPassedParametersAreNull()
+        {
+            // Arrange
+            var mockedVerification = new Mock<IVerificationProvider>();
+
+            // Act and Assert
+            Assert.DoesNotThrow(() => new AccountController(mockedVerification.Object));
+        }
+
+        [Test]
+        public void Controller_ShouldThrowArgumentNullException_WhenPassedParametersAreNull()
+        {
+            // Act and Assert
+            Assert.Throws<ArgumentNullException>(() => new AccountController(null));
+        }
+
+        [Test]
+        public void LoginGET_ShouldReturnsTrue_WhenViewResult_IsValid()
         {
             // Arrange
             var returnUrl = "returnUrl";
-            var controller = new AccountController();
+            var mockedVerification = new Mock<IVerificationProvider>();
+            var controller = new AccountController(mockedVerification.Object);
 
             // Act
-            var result = controller.Login(returnUrl) as ViewResult;
+            mockedVerification.Setup(x => x.IsAuthenticated).Returns(false);
 
             // Assert
-            Assert.AreEqual(returnUrl, result.ViewBag.ReturnUrl);
+            controller
+                .WithCallTo(c => c.Login(returnUrl))
+                .ShouldRenderView("Login");
         }
 
         [Test]
-        public void Login_ShouldReturnsTrue_WhenViewResult_IsValid()
+        public void LoginGET_ShouldRedirects_WhenLoggedIn()
         {
             // Arrange
             var returnUrl = "returnUrl";
-            var controller = new AccountController();
+            var mockedVerification = new Mock<IVerificationProvider>();
+            var controller = new AccountController(mockedVerification.Object);
 
             // Act
-            var result = controller.Login(returnUrl) as ViewResult;
+            mockedVerification.Setup(x => x.IsAuthenticated).Returns(true);
 
             // Assert
-            Assert.AreEqual("Log in", result.ViewData["Title"]);
-        }
-
-        [Test]
-        public void Login_ShouldReturnsTrue_IfHaveAntiForgeryAttrubute()
-        {
-            // Arrange
-            var loginMethod = typeof(AccountController)
-              .GetMethods()
-              .FirstOrDefault(x => x.Name == "Login" &&
-              x.GetParameters().Count() == 2);
-
-            // Act
-            var attributes = loginMethod.GetCustomAttributes(false)
-                 .Last().GetType().Name;
-
-            // Assert
-            Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
-        }
-
-        [Test]
-        public void Register_ShouldReturnsTrue_IfHaveAntiForgeryAttrubute()
-        {
-            // Arrange
-            var registerMethod = typeof(AccountController)
-              .GetMethods()
-              .FirstOrDefault(x => x.Name == "Register" &&
-              x.GetParameters().Count() == 1);
-
-            // Act
-            var attributes = registerMethod.GetCustomAttributes(false)
-                    .Last().GetType().Name;
-
-            // Assert
-            Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
+            controller
+                .WithCallTo(c => c.Login(returnUrl))
+                .ShouldRedirectTo((StoreController c) => c.Index());
         }
 
 
         [Test]
-        public void Register_ShouldReturnsTrue_WhenViewResult_IsValid()
+        public void LoginPOST_ShouldRedirects_WhenLoggedIn()
         {
             // Arrange
-            var controller = new AccountController();
+            var returnUrl = "returnUrl";
+            var mockedVerification = new Mock<IVerificationProvider>();
+            var controller = new AccountController(mockedVerification.Object);
+            var viewModel = new LoginViewModel();
 
             // Act
-            var result = controller.Register() as ViewResult;
+            mockedVerification.Setup(x => x.IsAuthenticated).Returns(true);
 
             // Assert
-            Assert.AreEqual("Register", result.ViewData["Title"]);
+            controller
+                .WithCallTo(c => c.Login(viewModel, returnUrl))
+                .ShouldRedirectTo((StoreController c) => c.Index());
         }
 
         [Test]
-        public void VerifyCodeGET_ShouldReturnsTrue_IfHaveAllowAnonymousAttribute()
+        public void LoginPOST_ShouldRenderView_WhenIsNotValid()
         {
             // Arrange
-            var verifyCodeMethod = typeof(AccountController)
-              .GetMethods()
-              .FirstOrDefault(x => x.Name == "VerifyCode" &&
-              x.GetParameters().Count() == 3);
+            var returnUrl = "returnUrl";
+            var mockedVerification = new Mock<IVerificationProvider>();
+            var controller = new AccountController(mockedVerification.Object);
+            controller.ModelState.AddModelError("wrorng model", "Error");
+            var viewModel = new LoginViewModel();
 
-            // Act
-            var attributes = verifyCodeMethod.GetCustomAttributes(false)
-                  .Last().GetType().Name;
-
-            // Assert
-            Assert.AreEqual("AllowAnonymousAttribute", attributes);
-        }
-
-
-        [Test]
-        public void VerifyCodePOST_ShouldReturnsTrue_IfHaveAntiForgeryAttrubute()
-        {
-            // Arrange
-            var verifyCodeMethod = typeof(AccountController)
-              .GetMethods()
-              .FirstOrDefault(x => x.Name == "VerifyCode" &&
-              x.GetParameters().Count() == 1);
-
-            // Act
-            var attributes = verifyCodeMethod.GetCustomAttributes(false)
-                  .Last().GetType().Name;
-
-            // Assert
-            Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.Login(viewModel, returnUrl))
+                .ShouldRenderDefaultView();
         }
 
         [Test]
-        public void ConfirmEmail_ShouldReturnsTrue_IfHaveAllowAnonymousAttribute()
+        public void LoginPOST_ShouldLoggedIn_CurrentUser()
         {
             // Arrange
-            var confirmEmailMethod = typeof(AccountController)
-              .GetMethods()
-              .FirstOrDefault(x => x.Name == "ConfirmEmail" &&
-              x.GetParameters().Count() == 2);
+            var returnUrl = "returnUrl";
+            var mockedVerification = new Mock<IVerificationProvider>();
 
-            // Act
-            var attributes = confirmEmailMethod.GetCustomAttributes(false)
-                  .Last().GetType().Name;
+            var viewModel = new LoginViewModel()
+            {
+                Password = "password",
+                Email = "pesho@abv.bg",
+                RememberMe = true
+            };
 
-            // Assert
-            Assert.AreEqual("AllowAnonymousAttribute", attributes);
+            mockedVerification.Setup(x => x.GetUserByEmail(viewModel.Email));
+
+            mockedVerification.Setup(v => v.SignInWithPassword(viewModel.Email, viewModel.Password, viewModel.RememberMe, It.IsAny<bool>()))
+                .Returns(SignInStatus.Success);
+
+            var controller = new AccountController(mockedVerification.Object);
+
+
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.Login(viewModel, returnUrl))
+                .ShouldRedirectTo(returnUrl);
         }
 
         [Test]
-        public void ForgotPassword_ShouldReturnsTrue_WhenViewResult_IsValid()
+        public void LoginPOST_ShouldThrowError_IfCurrentUserIsNotValid()
         {
             // Arrange
-            var controller = new AccountController();
+            var returnUrl = "returnUrl";
+            var mockedVerification = new Mock<IVerificationProvider>();
 
-            // Act
-            var result = controller.ForgotPassword() as ViewResult;
+            var viewModel = new LoginViewModel()
+            {
+                Password = "password",
+                Email = "pesho@abv.bg",
+                RememberMe = true
+            };
 
-            // Assert
-            Assert.AreEqual("Forgot your password?", result.ViewData["Title"]);
+            mockedVerification.Setup(x => x.GetUserByEmail(viewModel.Email));
+
+
+            mockedVerification.Setup(v => v.SignInWithPassword(viewModel.Email, viewModel.Password, viewModel.RememberMe, It.IsAny<bool>()))
+                .Returns(SignInStatus.Failure);
+
+            var controller = new AccountController(mockedVerification.Object);
+
+
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.Login(viewModel, returnUrl))
+                .ShouldRenderDefaultView();
         }
 
         [Test]
-        public void ForgotPassword_ShouldReturnsTrue_IfHaveAntiForgeryAttrubute()
+        public void LoginPOST_ShouldThrowError_IfCurrentUserIsBlocked()
         {
             // Arrange
-            var forgotPasswordMethod = typeof(AccountController)
-              .GetMethods()
-              .FirstOrDefault(x => x.Name == "ForgotPassword" &&
-              x.GetParameters().Count() == 1);
+            var returnUrl = "returnUrl";
+            var mockedVerification = new Mock<IVerificationProvider>();
 
-            // Act
-            var attributes = forgotPasswordMethod.GetCustomAttributes(false)
-                .Last().GetType().Name;
+            var blockedUser = new User
+            {
+                Email = "pesho@abv.bg",
+                DeletedOn = DateTime.Now
+            };
 
-            // Assert
-            Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
+            var viewModel = new LoginViewModel()
+            {
+                Password = "password",
+                Email = "pesho@abv.bg",
+                RememberMe = true
+            };
+
+            mockedVerification.Setup(x => x.GetUserByEmail(blockedUser.Email)).Returns(blockedUser);
+
+
+            mockedVerification.Setup(v => v.SignInWithPassword(viewModel.Email, viewModel.Password, viewModel.RememberMe, It.IsAny<bool>()))
+                .Returns(SignInStatus.Failure);
+
+            var controller = new AccountController(mockedVerification.Object);
+
+
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.Login(viewModel, returnUrl))
+                .ShouldRenderDefaultView();
         }
 
         [Test]
-        public void ForgotPasswordConfirmation_ShouldReturnsTrue_WhenViewResult_IsValid()
+        public void RegisterGET_ShouldRedirects_WhenRegistered()
         {
             // Arrange
-            var controller = new AccountController();
+            var mockedVerification = new Mock<IVerificationProvider>();
+            var controller = new AccountController(mockedVerification.Object);
 
             // Act
-            var result = controller.ForgotPasswordConfirmation() as ViewResult;
+            mockedVerification.Setup(x => x.IsAuthenticated).Returns(true);
 
             // Assert
-            Assert.AreEqual("Forgot Password Confirmation", result.ViewData["Title"]);
+            controller
+                .WithCallTo(c => c.Register())
+                .ShouldRedirectTo((StoreController c) => c.Index());
         }
 
         [Test]
-        public void ResetPassword_ShouldReturnsTrue_WhenViewResult_IsValid()
+        public void RegisterGET_ShouldReturnsTrue_WhenViewResult_IsValid()
         {
             // Arrange
-            var controller = new AccountController();
+            var mockedVerification = new Mock<IVerificationProvider>();
+            var controller = new AccountController(mockedVerification.Object);
 
             // Act
-            var result = controller.ResetPassword(string.Empty) as ViewResult;
+            mockedVerification.Setup(x => x.IsAuthenticated).Returns(false);
 
             // Assert
-            Assert.AreEqual("Reset password", result.ViewData["Title"]);
+            controller
+                .WithCallTo(c => c.Register())
+                .ShouldRenderView("Register");
         }
 
         [Test]
-        public void ResetPassword_ShouldReturnsTrue_WhenResetCode_IsValid()
+        public void RegisterPOST_ShouldRedirects_WhenRegistered()
         {
             // Arrange
-            var controller = new AccountController();
+            var mockedVerification = new Mock<IVerificationProvider>();
+            var controller = new AccountController(mockedVerification.Object);
+            var viewModel = new RegisterViewModel();
 
             // Act
-            var result = controller.ResetPassword(string.Empty) as ViewResult;
+            mockedVerification.Setup(x => x.IsAuthenticated).Returns(true);
 
             // Assert
-            Assert.AreEqual(string.Empty, result.ViewName);
+            controller
+                .WithCallTo(c => c.Register(viewModel))
+                .ShouldRedirectTo((StoreController c) => c.Index());
         }
 
         [Test]
-        public void ResetPassword_ShouldReturnsTrue_IfHaveAntiForgeryAttrubute()
+        public void RegisterPOST_ShouldRegister_NewUser()
         {
             // Arrange
-            var resetPasswordMethod = typeof(AccountController)
-              .GetMethods()
-              .Where(x => x.Name == "ResetPassword" &&
-              x.GetParameters().Count() == 1).Last();
+            var mockedVerification = new Mock<IVerificationProvider>();
+            var mockedUser = new Mock<User>();
 
-            // Act
-            var attributes = resetPasswordMethod.GetCustomAttributes(false)
-                   .Last().GetType().Name;
+            mockedVerification.Setup(v => v.RegisterAndLoginUser(It.IsAny<User>(), It.IsAny<string>(),
+                It.IsAny<bool>(), It.IsAny<bool>())).Returns(IdentityResult.Success);
 
-            // Assert
-            Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
+            var controller = new AccountController(mockedVerification.Object);
+
+            var viewModel = new RegisterViewModel()
+            {
+                Password = "password",
+                Email = "pesho@abv.bg"
+            };
+
+            controller.Register(viewModel);
+
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.Register(viewModel))
+                .ShouldRedirectTo((StoreController c) => c.Index());
         }
 
         [Test]
-        public void ResetPasswordConfirmation_ShouldReturnsTrue_WhenViewResult_IsValid()
+        public void LogOff_ShouldRedirects_WhenSuccessfulLogOff()
         {
             // Arrange
-            var controller = new AccountController();
+            var mockedVerification = new Mock<IVerificationProvider>();
+            var controller = new AccountController(mockedVerification.Object);
 
             // Act
-            var result = controller.ResetPasswordConfirmation() as ViewResult;
+            mockedVerification.Setup(x => x.IsAuthenticated).Returns(false);
 
             // Assert
-            Assert.AreEqual("Reset password confirmation", result.ViewData["Title"]);
-        }
-
-
-        [Test]
-        public void ExternalLogin_ShouldReturnsTrue_IfHaveAntiForgeryAttrubute()
-        {
-            // Arrange
-            var externalLoginMethod = typeof(AccountController)
-              .GetMethods()
-              .FirstOrDefault(x => x.Name == "ExternalLogin" &&
-              x.GetParameters().Count() == 2);
-
-            // Act
-            var attributes = externalLoginMethod.GetCustomAttributes(false)
-                 .Last().GetType().Name;
-
-            // Assert
-            Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
+            controller
+                .WithCallTo(c => c.LogOff())
+                .ShouldRedirectTo((StoreController c) => c.Index());
         }
 
         [Test]
-        public void SendCodeGET_ShouldReturnsTrue_IfHaveAllowAnonymousAttribute()
+        public void LogOff_ShouldRedirects_WhenNotSuccessfulLogOff()
         {
             // Arrange
-            var sendCodeMethod = typeof(AccountController)
-              .GetMethods()
-              .FirstOrDefault(x => x.Name == "SendCode" &&
-              x.GetParameters().Count() == 2);
+            var mockedVerification = new Mock<IVerificationProvider>();
+            var controller = new AccountController(mockedVerification.Object);
 
             // Act
-            var attributes = sendCodeMethod.GetCustomAttributes(false)
-                 .Last().GetType().Name;
+            mockedVerification.Setup(x => x.IsAuthenticated).Returns(true);
+            mockedVerification.Setup(x => x.SignOut());
 
             // Assert
-            Assert.AreEqual("AllowAnonymousAttribute", attributes);
-        }
-
-        [Test]
-        public void SendCodePOST_ShouldReturnsTrue_IfHaveAntiForgeryAttrubute()
-        {
-            // Arrange
-            var sendCodeMethod = typeof(AccountController)
-              .GetMethods()
-              .FirstOrDefault(x => x.Name == "SendCode" &&
-              x.GetParameters().Count() == 1);
-
-            // Act
-            var attributes = sendCodeMethod.GetCustomAttributes(false)
-                 .Last().GetType().Name;
-
-            // Assert
-            Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
-        }
-
-        [Test]
-        public void ExternalLoginCallback_ShouldReturnsTrue_IfHaveAllowAnonymousAttribute()
-        {
-            // Arrange
-            var externalLoginCallbackMethod = typeof(AccountController)
-              .GetMethods()
-              .FirstOrDefault(x => x.Name == "ExternalLoginCallback" &&
-              x.GetParameters().Count() == 1);
-
-            // Act
-            var attributes = externalLoginCallbackMethod.GetCustomAttributes(false)
-                 .Last().GetType().Name;
-
-            // Assert
-            Assert.AreEqual("AllowAnonymousAttribute", attributes);
-        }
-
-        [Test]
-        public void ExternalLoginConfirmation_ShouldReturnsTrue_IfHaveAntiForgeryAttrubute()
-        {
-            // Arrange
-            var externalLoginConfirmationMethod = typeof(AccountController)
-              .GetMethods()
-              .SingleOrDefault(x => x.Name == "ExternalLoginConfirmation" &&
-              x.GetParameters().Count() == 2);
-
-            // Act
-            var attributes = externalLoginConfirmationMethod.GetCustomAttributes(false)
-                .Last().GetType().Name;
-
-
-            // Assert
-            Assert.AreEqual("ValidateAntiForgeryTokenAttribute", attributes);
-        }
-
-        [Test]
-        public void ExternalLoginFailure_ShouldReturnsTrue_WhenViewResult_IsValid()
-        {
-            // Arrange
-            var controller = new AccountController();
-
-            // Act
-            var result = controller.ExternalLoginFailure() as ViewResult;
-
-            // Assert
-            Assert.AreEqual("Login Failure", result.ViewData["Title"]);
+            controller
+                .WithCallTo(c => c.LogOff())
+                .ShouldRedirectTo((StoreController c) => c.Index());
         }
     }
 }

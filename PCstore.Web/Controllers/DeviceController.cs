@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Microsoft.AspNet.Identity;
 using PCstore.Data.Model;
 using PCstore.Services.Contracts;
 using PCstore.Web.ViewModels.Device;
@@ -9,20 +8,35 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Caching;
 using PagedList;
+using Bytes2you.Validation;
+using PCstore.Web.Providers.Contracts;
 
 namespace PCstore.Web.Controllers
 {
     public class DeviceController : Controller
     {
+        private readonly IVerificationProvider verification;
         private readonly IMapper mapper;
         private readonly IUsersService usersService;
         private readonly IComputersService computersService;
         private readonly ILaptopsService laptopsService;
         private readonly IDisplaysService displaysService;
 
-        public DeviceController(IMapper mapper, IUsersService usersService,
+        public DeviceController()
+        {
+        }
+
+        public DeviceController(IVerificationProvider verification, IMapper mapper, IUsersService usersService,
             IComputersService computersService, ILaptopsService laptopsService, IDisplaysService displaysService)
         {
+            Guard.WhenArgument(verification, nameof(verification)).IsNull().Throw();
+            Guard.WhenArgument(mapper, nameof(mapper)).IsNull().Throw();
+            Guard.WhenArgument(usersService, nameof(usersService)).IsNull().Throw();
+            Guard.WhenArgument(computersService, nameof(computersService)).IsNull().Throw();
+            Guard.WhenArgument(laptopsService, nameof(laptopsService)).IsNull().Throw();
+            Guard.WhenArgument(displaysService, nameof(displaysService)).IsNull().Throw();
+
+            this.verification = verification;
             this.mapper = mapper;
             this.usersService = usersService;
             this.computersService = computersService;
@@ -81,7 +95,7 @@ namespace PCstore.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddComputer(Computer model)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = this.verification.CurrentUserId;
             var currentUser = this.usersService.GetAll()
                            .Single(x => x.Id == userId);
 
@@ -91,7 +105,6 @@ namespace PCstore.Web.Controllers
 
             return RedirectToAction("Index", "Manage");
         }
-
 
         // Update Computer \\
         [HttpGet]
@@ -168,7 +181,7 @@ namespace PCstore.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddLaptop(Laptop model)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = this.verification.CurrentUserId;
             var currentUser = this.usersService.GetAll()
                            .Single(x => x.Id == userId);
 
@@ -254,7 +267,7 @@ namespace PCstore.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddDisplay(Display model)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = this.verification.CurrentUserId;
             var currentUser = this.usersService.GetAll()
                            .Single(x => x.Id == userId);
 

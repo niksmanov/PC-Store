@@ -1,4 +1,5 @@
-﻿using PCstore.Data.Model;
+﻿using Bytes2you.Validation;
+using PCstore.Data.Model;
 using PCstore.Data.Repositories;
 using PCstore.Data.UnitOfWork;
 using PCstore.Services.Contracts;
@@ -13,6 +14,9 @@ namespace PCstore.Services
 
         public UsersService(IEfRepository<User> usersRepo, IUnitOfWork unitOfWork)
         {
+            Guard.WhenArgument(usersRepo, nameof(usersRepo)).IsNull().Throw();
+            Guard.WhenArgument(unitOfWork, nameof(unitOfWork)).IsNull().Throw();
+
             this.usersRepo = usersRepo;
             this.unitOfWork = unitOfWork;
         }

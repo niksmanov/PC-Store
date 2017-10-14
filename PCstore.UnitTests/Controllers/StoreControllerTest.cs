@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using PCstore.Web.Controllers;
 using NUnit.Framework;
+using TestStack.FluentMVCTesting;
 
 namespace PCstore.UnitTests.Controllers
 {
@@ -13,11 +14,22 @@ namespace PCstore.UnitTests.Controllers
             // Arrange
             var controller = new StoreController();
 
-            // Act
-            var result = controller.Index() as ViewResult;
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.Index())
+                .ShouldRenderView("Index");
+        }
 
-            // Assert
-            Assert.AreEqual("PC store - Home", result.ViewData["Title"]);
+        [Test]
+        public void IndexCache_ShouldReturnsTrue_WhenViewResult_IsValid()
+        {
+            // Arrange
+            var controller = new StoreController();
+
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.IndexCache())
+                .ShouldRenderPartialView("IndexCache");
         }
 
         [Test]
@@ -26,11 +38,22 @@ namespace PCstore.UnitTests.Controllers
             // Arrange
             var controller = new StoreController();
 
-            // Act
-            var result = controller.About() as ViewResult;
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.About())
+                .ShouldRenderView("About");
+        }
 
-            // Assert
-            Assert.AreEqual("About", result.ViewData["Title"]);
+        [Test]
+        public void AboutCache_ShouldReturnsTrue_WhenViewResult_IsValid()
+        {
+            // Arrange
+            var controller = new StoreController();
+
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.AboutCache())
+                .ShouldRenderPartialView("AboutCache");
         }
 
         [Test]
@@ -42,8 +65,22 @@ namespace PCstore.UnitTests.Controllers
             // Act
             var result = controller.Contact() as ViewResult;
 
-            // Assert
-            Assert.AreEqual("Contact", result.ViewData["Title"]);
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.Contact())
+                .ShouldRenderView("Contact");
+        }
+
+        [Test]
+        public void ContactCache_ShouldReturnsTrue_WhenViewResult_IsValid()
+        {
+            // Arrange
+            var controller = new StoreController();
+
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.ContactCache())
+                .ShouldRenderPartialView("ContactCache");
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using PCstore.Data.Model.Contracts;
-
+using Bytes2you.Validation;
 
 namespace PCstore.Data.Repositories
 {
@@ -14,6 +14,8 @@ namespace PCstore.Data.Repositories
 
         public EfRepository(MsSqlDbContext context)
         {
+            Guard.WhenArgument(context, nameof(context)).IsNull().Throw();
+
             this.context = context;
         }
 

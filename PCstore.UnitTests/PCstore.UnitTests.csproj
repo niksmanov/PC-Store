@@ -125,8 +125,15 @@
     <Compile Include="Controllers\AdminPanelControllerTests.cs" />
     <Compile Include="Controllers\DeviceControllerTests.cs" />
     <Compile Include="Controllers\ManageControllerTests.cs" />
+    <Compile Include="Data\EfRepositoryTests.cs" />
+    <Compile Include="Data\MsSqlDbContextTests.cs" />
+    <Compile Include="Data\UnitOfWorkTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\StoreControllerTest.cs" />
+    <Compile Include="Services\ComputersServiceTests.cs" />
+    <Compile Include="Services\DisplaysServiceTests.cs" />
+    <Compile Include="Services\LaptopsServiceTests.cs" />
+    <Compile Include="Services\UsersServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -152,6 +159,7 @@
       <Name>PCstore.Web</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

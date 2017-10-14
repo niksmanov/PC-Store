@@ -3,8 +3,6 @@ using NUnit.Framework;
 using PCstore.Data;
 using PCstore.Data.Model;
 using PCstore.Data.Repositories;
-using PCstore.Data.UnitOfWork;
-using PCstore.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

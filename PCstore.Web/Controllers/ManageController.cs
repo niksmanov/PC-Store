@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using PCstore.Web.Models;
 using PCstore.Services.Contracts;
 using AutoMapper;
@@ -84,34 +82,17 @@ namespace PCstore.Web.Controllers
                 .ProjectTo<DisplayViewModel>()
                 .ToList();
 
-            var devices = new DevicesViewModel()
-            {
-                Computers = computers,
-                Laptops = laptops,
-                Displays = displays
-            };
+            var viewModel = new List<IDeviceViewModel>();
+            viewModel.AddRange(computers);
+            viewModel.AddRange(laptops);
+            viewModel.AddRange(displays);
 
-            var collection = new List<IDeviceViewModel>();
-            collection.AddRange(computers);
-            collection.AddRange(laptops);
-            collection.AddRange(displays);
-
-            collection = collection.OrderByDescending(x => x.PostedOn).ToList();
-
-            var user = new IndexViewModel
-            {
-                HasPassword = HasPassword(),
-                PhoneNumber = null,
-                TwoFactor = false
-            };
-
+            viewModel = viewModel.OrderByDescending(x => x.PostedOn).ToList();
 
             var pageNumber = page ?? 1;
             var pageSize = 10;
-            var paging = collection.ToPagedList(pageNumber, pageSize);
 
-            var viewModel = new Tuple<IndexViewModel, IPagedList<IDeviceViewModel>>(user, paging);
-            return View(viewModel);
+            return View(viewModel.ToPagedList(pageNumber, pageSize));
         }
 
         // Delete Advertisement \\
@@ -173,40 +154,12 @@ namespace PCstore.Web.Controllers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error);
             }
-        }
-
-        private bool HasPassword()
-        {
-            var user = this.verification.UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PasswordHash != null;
-            }
-            return false;
-        }
-
-        private bool HasPhoneNumber()
-        {
-            var user = this.verification.UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PhoneNumber != null;
-            }
-            return false;
         }
 
         public enum ManageMessageId

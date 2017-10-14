@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using Moq;
 using NUnit.Framework;
 using PCstore.Data.Model;
@@ -114,6 +115,47 @@ namespace PCstore.UnitTests.Controllers
         }
 
         [Test]
+        public void Index_ShouldReturnsTrue_WhenViewResult_IsValid()
+        {
+            var id = "123";
+
+            // Arrange
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Computer, ComputerViewModel>();
+                cfg.CreateMap<ComputerViewModel, Computer>();
+
+                cfg.CreateMap<Laptop, LaptopViewModel>();
+                cfg.CreateMap<LaptopViewModel, Laptop>();
+
+                cfg.CreateMap<Display, DisplayViewModel>();
+                cfg.CreateMap<DisplayViewModel, Display>();
+            });
+
+            var mockedProvider = new Mock<IVerificationProvider>();
+            var mockedMapper = new Mock<IMapper>();
+            var mockedUsersService = new Mock<IUsersService>();
+            var mockedComputersService = new Mock<IComputersService>();
+            var mockedLaptopsService = new Mock<ILaptopsService>();
+            var mockedDisplaysService = new Mock<IDisplaysService>();
+
+            var controller = new ManageController(mockedProvider.Object, mockedMapper.Object, mockedUsersService.Object,
+            mockedComputersService.Object, mockedLaptopsService.Object, mockedDisplaysService.Object);
+
+
+            mockedProvider.Setup(v => v.CurrentUserId).Returns(id);
+
+            // Act
+            controller.Index(null, 1);
+
+
+            //Assert
+            controller
+             .WithCallTo(c => c.ChangePassword())
+             .ShouldRenderDefaultView();
+        }
+
+        [Test]
         public void Index_ShouldReturnsTrue_WhenComputers_AreValid()
         {
             // Arrange
@@ -159,7 +201,6 @@ namespace PCstore.UnitTests.Controllers
                 .WithCallTo(c => c.Index("Computer", computer.Id))
                 .ShouldReturnJson();
         }
-
 
         [Test]
         public void Index_ShouldReturnsTrue_WhenLaptops_AreValid()
@@ -280,6 +321,70 @@ namespace PCstore.UnitTests.Controllers
             controller
                 .WithCallTo(c => c.ChangePassword(viewModel))
                 .ShouldRenderDefaultView();
+        }
+
+        [Test]
+        public void ChangePasswordPOST_ShouldCallVerificationChangePassword_WhenIsValid()
+        {
+            var id = "123";
+
+            // Arrange
+            var mockedVerification = new Mock<IVerificationProvider>();
+            mockedVerification.Setup(v => v.CurrentUserId).Returns(id);
+            var mockedMapper = new Mock<IMapper>();
+            var mockedUsersService = new Mock<IUsersService>();
+            var mockedComputersService = new Mock<IComputersService>();
+            var mockedLaptopsService = new Mock<ILaptopsService>();
+            var mockedDisplaysService = new Mock<IDisplaysService>();
+
+            var controller = new ManageController(mockedVerification.Object, mockedMapper.Object, mockedUsersService.Object,
+            mockedComputersService.Object, mockedLaptopsService.Object, mockedDisplaysService.Object);
+
+
+            var viewModel = new ChangePasswordViewModel
+            {
+                OldPassword = "oldPassword",
+                NewPassword = "newPassword"
+            };
+            var user = new Mock<User>();
+            user.Object.Id = id;
+            mockedVerification.Setup(x => x.ChangePassword(id, viewModel.OldPassword, viewModel.NewPassword)).Returns(IdentityResult.Success);
+
+            controller.ChangePassword(viewModel);
+
+            mockedVerification.Verify(v => v.ChangePassword(id, viewModel.OldPassword, viewModel.NewPassword), Times.Once);
+
+        }
+
+        [Test]
+        public void ChangePasswordPOST_ShouldRedirects_WhenIsValid()
+        {
+            var id = "123";
+
+            // Arrange
+            var mockedVerification = new Mock<IVerificationProvider>();
+            mockedVerification.Setup(v => v.CurrentUserId).Returns(id);
+            var mockedMapper = new Mock<IMapper>();
+            var mockedUsersService = new Mock<IUsersService>();
+            var mockedComputersService = new Mock<IComputersService>();
+            var mockedLaptopsService = new Mock<ILaptopsService>();
+            var mockedDisplaysService = new Mock<IDisplaysService>();
+
+            var controller = new ManageController(mockedVerification.Object, mockedMapper.Object, mockedUsersService.Object,
+            mockedComputersService.Object, mockedLaptopsService.Object, mockedDisplaysService.Object);
+
+            var viewModel = new ChangePasswordViewModel
+            {
+                OldPassword = "oldPassword",
+                NewPassword = "newPassword"
+            };
+        
+            mockedVerification.Setup(x => x.ChangePassword(id, viewModel.OldPassword, viewModel.NewPassword)).Returns(IdentityResult.Success);
+
+            // Act and Assert
+            controller
+                .WithCallTo(c => c.ChangePassword(viewModel))
+                .ShouldRedirectTo(x => x.Index(null, 1));
         }
     }
 }

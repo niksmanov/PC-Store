@@ -125,6 +125,7 @@
     <Compile Include="Controllers\AdminPanelControllerTests.cs" />
     <Compile Include="Controllers\DeviceControllerTests.cs" />
     <Compile Include="Controllers\ManageControllerTests.cs" />
+    <Compile Include="Data\EfRepositoryFake.cs" />
     <Compile Include="Data\EfRepositoryTests.cs" />
     <Compile Include="Data\MsSqlDbContextTests.cs" />
     <Compile Include="Data\UnitOfWorkTests.cs" />

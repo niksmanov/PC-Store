@@ -230,7 +230,6 @@
     <Compile Include="ViewModels\Device\IDeviceViewModel.cs" />
     <Compile Include="ViewModels\Device\LaptopViewModel.cs" />
     <Compile Include="ViewModels\Manage\ChangePasswordViewModel.cs" />
-    <Compile Include="ViewModels\Manage\IndexViewModel.cs" />
     <Compile Include="ViewModels\Account\LoginViewModel.cs" />
     <Compile Include="ViewModels\Account\RegisterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

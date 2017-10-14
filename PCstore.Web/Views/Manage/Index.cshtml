@@ -1,8 +1,7 @@
-﻿@using PCstore.Web.Models
-@using PagedList.Mvc;
+﻿@using PagedList.Mvc;
 @using PagedList;
 
-@model Tuple<IndexViewModel, IPagedList<IDeviceViewModel>>
+@model IPagedList<IDeviceViewModel>
 
 <h3 align="center">@ViewData["Title"]</h3>
 
@@ -14,7 +13,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            @Html.Partial("_ChangePasswordPartial", Model.Item1)
+            @Html.Partial("_ChangePasswordPartial")
         </div>
         <div class="col-md-6">
             @Html.Partial("_CreateAdvertisementPartial")
@@ -23,14 +22,14 @@
 
     <hr />
 
-    @Html.Partial("_DevicesPartial", Model.Item2)
+    @Html.Partial("_DevicesPartial", Model)
 
 </div>
 
-@if (Model.Item2.Count > 0)
+@if (Model.Count > 0)
 {
     <div align="center">
-        @Html.PagedListPager(Model.Item2, page => Url.Action("Index", new { page }))
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
     </div>
 
     @section scripts {

@@ -156,6 +156,123 @@ namespace PCstore.UnitTests.Controllers
         }
 
         [Test]
+        public void Index_ShouldReturnsTrue_WhenComputersService_IsCalled()
+        {
+            var id = "123";
+
+            // Arrange
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Computer, ComputerViewModel>();
+                cfg.CreateMap<ComputerViewModel, Computer>();
+
+                cfg.CreateMap<Laptop, LaptopViewModel>();
+                cfg.CreateMap<LaptopViewModel, Laptop>();
+
+                cfg.CreateMap<Display, DisplayViewModel>();
+                cfg.CreateMap<DisplayViewModel, Display>();
+            });
+
+            var mockedProvider = new Mock<IVerificationProvider>();
+            var mockedMapper = new Mock<IMapper>();
+            var mockedUsersService = new Mock<IUsersService>();
+            var mockedComputersService = new Mock<IComputersService>();
+            var mockedLaptopsService = new Mock<ILaptopsService>();
+            var mockedDisplaysService = new Mock<IDisplaysService>();
+
+            var controller = new ManageController(mockedProvider.Object, mockedMapper.Object, mockedUsersService.Object,
+            mockedComputersService.Object, mockedLaptopsService.Object, mockedDisplaysService.Object);
+
+
+            mockedProvider.Setup(v => v.CurrentUserId).Returns(id);
+
+            // Act
+            controller.Index(null, 1);
+
+
+            //Assert
+            mockedComputersService.Verify(x => x.GetAll(), Times.Once);
+        }
+
+        [Test]
+        public void Index_ShouldReturnsTrue_WhenLaptopsService_IsCalled()
+        {
+            var id = "123";
+
+            // Arrange
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Computer, ComputerViewModel>();
+                cfg.CreateMap<ComputerViewModel, Computer>();
+
+                cfg.CreateMap<Laptop, LaptopViewModel>();
+                cfg.CreateMap<LaptopViewModel, Laptop>();
+
+                cfg.CreateMap<Display, DisplayViewModel>();
+                cfg.CreateMap<DisplayViewModel, Display>();
+            });
+
+            var mockedProvider = new Mock<IVerificationProvider>();
+            var mockedMapper = new Mock<IMapper>();
+            var mockedUsersService = new Mock<IUsersService>();
+            var mockedComputersService = new Mock<IComputersService>();
+            var mockedLaptopsService = new Mock<ILaptopsService>();
+            var mockedDisplaysService = new Mock<IDisplaysService>();
+
+            var controller = new ManageController(mockedProvider.Object, mockedMapper.Object, mockedUsersService.Object,
+            mockedComputersService.Object, mockedLaptopsService.Object, mockedDisplaysService.Object);
+
+
+            mockedProvider.Setup(v => v.CurrentUserId).Returns(id);
+
+            // Act
+            controller.Index(null, 1);
+
+
+            //Assert
+            mockedLaptopsService.Verify(x => x.GetAll(), Times.Once);
+        }
+
+        [Test]
+        public void Index_ShouldReturnsTrue_WhenDisplaysService_IsCalled()
+        {
+            var id = "123";
+
+            // Arrange
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Computer, ComputerViewModel>();
+                cfg.CreateMap<ComputerViewModel, Computer>();
+
+                cfg.CreateMap<Laptop, LaptopViewModel>();
+                cfg.CreateMap<LaptopViewModel, Laptop>();
+
+                cfg.CreateMap<Display, DisplayViewModel>();
+                cfg.CreateMap<DisplayViewModel, Display>();
+            });
+
+            var mockedProvider = new Mock<IVerificationProvider>();
+            var mockedMapper = new Mock<IMapper>();
+            var mockedUsersService = new Mock<IUsersService>();
+            var mockedComputersService = new Mock<IComputersService>();
+            var mockedLaptopsService = new Mock<ILaptopsService>();
+            var mockedDisplaysService = new Mock<IDisplaysService>();
+
+            var controller = new ManageController(mockedProvider.Object, mockedMapper.Object, mockedUsersService.Object,
+            mockedComputersService.Object, mockedLaptopsService.Object, mockedDisplaysService.Object);
+
+
+            mockedProvider.Setup(v => v.CurrentUserId).Returns(id);
+
+            // Act
+            controller.Index(null, 1);
+
+
+            //Assert
+            mockedDisplaysService.Verify(x => x.GetAll(), Times.Once);
+        }
+
+        [Test]
         public void Index_ShouldReturnsTrue_WhenComputers_AreValid()
         {
             // Arrange

@@ -1,17 +1,15 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Bytes2you.Validation;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using PCstore.Data.Model;
 using PCstore.Services.Contracts;
 using PCstore.Web.Models;
+using PCstore.Web.Providers.Contracts;
 using PCstore.Web.ViewModels.Device;
 using PCstore.Web.ViewModels.Manage;
 using System;
-using System.Collections;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace PCstore.Web.Areas.Administration.Controllers
@@ -19,40 +17,36 @@ namespace PCstore.Web.Areas.Administration.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminPanelController : Controller
     {
-        private ApplicationUserManager _userManager;
-
+        private readonly IHttpContextProvider httpContext;
+        private readonly IVerificationProvider verification;
         private readonly IMapper mapper;
         private readonly IUsersService usersService;
         private readonly IComputersService computersService;
         private readonly ILaptopsService laptopsService;
         private readonly IDisplaysService displaysService;
 
-
-        public AdminPanelController(ApplicationUserManager userManager)
+        public AdminPanelController()
         {
-            this.UserManager = userManager;
         }
 
-        public AdminPanelController(IMapper mapper, IUsersService usersService,
-            IComputersService computersService, ILaptopsService laptopsService, IDisplaysService displaysService)
+        public AdminPanelController(IHttpContextProvider httpContext, IVerificationProvider verification, IMapper mapper,
+            IUsersService usersService, IComputersService computersService, ILaptopsService laptopsService, IDisplaysService displaysService)
         {
+            Guard.WhenArgument(httpContext, nameof(httpContext)).IsNull().Throw();
+            Guard.WhenArgument(verification, nameof(verification)).IsNull().Throw();
+            Guard.WhenArgument(mapper, nameof(mapper)).IsNull().Throw();
+            Guard.WhenArgument(usersService, nameof(usersService)).IsNull().Throw();
+            Guard.WhenArgument(computersService, nameof(computersService)).IsNull().Throw();
+            Guard.WhenArgument(laptopsService, nameof(laptopsService)).IsNull().Throw();
+            Guard.WhenArgument(displaysService, nameof(displaysService)).IsNull().Throw();
+
+            this.httpContext = httpContext;
+            this.verification = verification;
             this.mapper = mapper;
             this.usersService = usersService;
             this.computersService = computersService;
             this.laptopsService = laptopsService;
             this.displaysService = displaysService;
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
         }
 
 
@@ -67,11 +61,11 @@ namespace PCstore.Web.Areas.Administration.Controllers
         [HttpDelete]
         public ActionResult ClearCache()
         {
-            IDictionaryEnumerator enumerator = HttpContext.Cache.GetEnumerator();
+            var enumerator = this.httpContext.CurrentHttpContext.Cache.GetEnumerator();
 
             while (enumerator.MoveNext())
             {
-                HttpContext.Cache.Remove((string)enumerator.Key);
+                this.httpContext.CurrentHttpContext.Cache.Remove((string)enumerator.Key);
             }
 
             //HttpRuntime.UnloadAppDomain();
@@ -90,7 +84,7 @@ namespace PCstore.Web.Areas.Administration.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddUser(RegisterViewModel model)
+        public ActionResult AddUser(RegisterViewModel model)
         {
             if (this.ModelState.IsValid)
             {
@@ -102,11 +96,7 @@ namespace PCstore.Web.Areas.Administration.Controllers
                     ModifiedOn = DateTime.Now
                 };
 
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    this.UserManager.AddToRole(user.Id, "User");
-                }
+                var result = this.verification.Register(user, model.Password);
             }
             return RedirectToAction("Index", "AdminPanel");
         }
@@ -123,14 +113,12 @@ namespace PCstore.Web.Areas.Administration.Controllers
                 .ProjectTo<UserViewModel>()
                 .ToList();
 
-
             users = users.Select(x =>
             {
-                x.Role = this.UserManager
+                x.Role = this.verification
                 .IsInRole(x.Id, "Admin") ? "Admin" : "User";
                 return x;
             }).ToList();
-
 
             return PartialView(users);
         }
@@ -162,15 +150,16 @@ namespace PCstore.Web.Areas.Administration.Controllers
             user.PasswordHash = user.PasswordHash;
             user.SecurityStamp = user.SecurityStamp;
 
-            if (role == "Admin")
+
+            if (role == "User")
             {
-                this.UserManager.AddToRole(user.Id, "Admin");
-                this.UserManager.RemoveFromRole(user.Id, "User");
+                this.verification.AddToRole(user.Id, "User");
+                this.verification.RemoveFromRole(user.Id, "Admin");
             }
-            else if (role == "User")
+            else if (role == "Admin")
             {
-                this.UserManager.AddToRole(user.Id, "User");
-                this.UserManager.RemoveFromRole(user.Id, "Admin");
+                this.verification.AddToRole(user.Id, "Admin");
+                this.verification.RemoveFromRole(user.Id, "User");
             }
 
             this.usersService.Update(user);
@@ -233,7 +222,7 @@ namespace PCstore.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddComputer(Computer model)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = this.verification.CurrentUserId;
 
             var allUsers = this.usersService.GetAll();
             var currentUser = this.usersService.GetAll()
@@ -279,7 +268,7 @@ namespace PCstore.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddLaptop(Laptop model)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = this.verification.CurrentUserId;
             var currentUser = this.usersService.GetAll()
                            .Single(x => x.Id == userId);
 
@@ -288,8 +277,6 @@ namespace PCstore.Web.Areas.Administration.Controllers
             this.laptopsService.Add(model);
 
             return RedirectToAction("Index", "AdminPanel");
-
-
         }
 
 
@@ -325,7 +312,7 @@ namespace PCstore.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddDisplay(Display model)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = this.verification.CurrentUserId;
             var currentUser = this.usersService.GetAll()
                            .Single(x => x.Id == userId);
 

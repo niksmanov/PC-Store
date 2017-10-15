@@ -4,7 +4,6 @@ using PCstore.Data.Model.Contracts;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
 
 namespace PCstore.Data
@@ -38,7 +37,6 @@ namespace PCstore.Data
                 var exceptionMessage =
                     string.Concat($"{ex.Message}{Environment.NewLine}The validation errors are:{Environment.NewLine}{fullErrorMessage}");
 
-                Debug.WriteLine(exceptionMessage);
                 throw new DbEntityValidationException(exceptionMessage);
             }
         }

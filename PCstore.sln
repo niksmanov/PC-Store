@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCstore.Services", "PCstore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCstore.Data.Model", "PCstore.Data.Model\PCstore.Data.Model.csproj", "{1F355C4D-1F90-494F-9DB2-3B901079028A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCstore.IntegrationTests", "PCstore.IntegrationTests\PCstore.IntegrationTests.csproj", "{8B87A735-E5F1-4A07-9247-ACD075746AE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1F355C4D-1F90-494F-9DB2-3B901079028A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F355C4D-1F90-494F-9DB2-3B901079028A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F355C4D-1F90-494F-9DB2-3B901079028A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B87A735-E5F1-4A07-9247-ACD075746AE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B87A735-E5F1-4A07-9247-ACD075746AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B87A735-E5F1-4A07-9247-ACD075746AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B87A735-E5F1-4A07-9247-ACD075746AE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

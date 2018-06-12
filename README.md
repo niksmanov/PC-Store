@@ -14,4 +14,4 @@ Bitack PC store is an ASP.NET MVC application for selling computers, laptops and
 
 :blue_book: [**Project description**](./docs/Project-description.md)
 
-:rocket: [**Website of the application**](http://www.bitack.somee.com/)
+:rocket: [**Website of the application**](http://bitackstore.somee.com/)
